@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["PP93DTPCD3.org.applicious.ovation.Ovation"],
+        "components": [
+          {
+            "/": "/e/*",
+            "comment": "Invitation links: ovationapp.ch/e/{slug}?k={secret}"
+          }
+        ]
+      }
+    ]
+  }
+}

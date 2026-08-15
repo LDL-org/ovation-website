@@ -1,0 +1,100 @@
+/* The app's own palette, so a guest who lands here from an invitation recognises where they are. */
+:root {
+  --plum: #481d27;
+  --gold: #846823;
+  --gold-light: #d4af5e;
+  --cream: #f6f0ea;
+  --ink: #2b2230;
+  --muted: #6e665e;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0 0 .25rem;
+  color: var(--plum);
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: 2.5rem 0 .5rem;
+  color: var(--plum);
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 1.5rem 0 .25rem;
+  color: var(--gold);
+}
+
+a { color: var(--gold); }
+
+ul { padding-left: 1.25rem; }
+li { margin: .35rem 0; }
+
+.updated,
+.back {
+  color: var(--muted);
+  font-size: .875rem;
+}
+
+.updated { margin: 0 0 2rem; }
+.back { margin: 0 0 2rem; }
+
+/* Landing page only */
+.hero {
+  text-align: center;
+  padding: 4rem 0 2rem;
+}
+
+.hero .mark {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--plum);
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-light);
+  font-size: 2rem;
+}
+
+.hero h1 { font-size: 2.75rem; }
+
+.tagline {
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin: .5rem 0 2.5rem;
+}
+
+.links a {
+  display: inline-block;
+  margin: 0 .75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cream: #1c1720;
+    --ink: #f0eaea;
+    --muted: #a79d94;
+    --plum: #d4af5e;
+    --gold: #d4af5e;
+  }
+}

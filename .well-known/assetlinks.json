@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.applicious.ovation",
+      "sha256_cert_fingerprints": [
+        "AB:89:EB:AF:EE:D0:7F:DF:03:DF:51:9C:B0:05:16:41:B3:D7:73:D9:F9:93:04:32:07:5F:B0:28:B3:B7:FB:E1"
+      ]
+    }
+  }
+]
