@@ -1,100 +1,199 @@
 /* The app's own palette, so a guest who lands here from an invitation recognises where they are. */
 :root {
   --plum: #481d27;
+  --plum-deep: #2e1119;
   --gold: #846823;
-  --gold-light: #d4af5e;
+  --gold-bright: #d4af5e;
   --cream: #f6f0ea;
+  --surface: #ffffff;
   --ink: #2b2230;
   --muted: #6e665e;
-}
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  padding: 0;
-  background: var(--cream);
-  color: var(--ink);
-  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-main {
-  max-width: 46rem;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 5rem;
-}
-
-h1 {
-  font-size: 2rem;
-  line-height: 1.2;
-  margin: 0 0 .25rem;
-  color: var(--plum);
-}
-
-h2 {
-  font-size: 1.25rem;
-  margin: 2.5rem 0 .5rem;
-  color: var(--plum);
-}
-
-h3 {
-  font-size: 1rem;
-  margin: 1.5rem 0 .25rem;
-  color: var(--gold);
-}
-
-a { color: var(--gold); }
-
-ul { padding-left: 1.25rem; }
-li { margin: .35rem 0; }
-
-.updated,
-.back {
-  color: var(--muted);
-  font-size: .875rem;
-}
-
-.updated { margin: 0 0 2rem; }
-.back { margin: 0 0 2rem; }
-
-/* Landing page only */
-.hero {
-  text-align: center;
-  padding: 4rem 0 2rem;
-}
-
-.hero .mark {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  background: var(--plum);
-  margin: 0 auto 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold-light);
-  font-size: 2rem;
-}
-
-.hero h1 { font-size: 2.75rem; }
-
-.tagline {
-  font-size: 1.15rem;
-  color: var(--muted);
-  margin: .5rem 0 2.5rem;
-}
-
-.links a {
-  display: inline-block;
-  margin: 0 .75rem;
+  --line: rgba(0, 0, 0, .08);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --cream: #1c1720;
+    --surface: #2a232d;
     --ink: #f0eaea;
     --muted: #a79d94;
-    --plum: #d4af5e;
     --gold: #d4af5e;
+    --line: rgba(255, 255, 255, .1);
   }
 }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+a { color: var(--gold); }
+
+.container {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+
+header {
+  background: linear-gradient(160deg, var(--plum) 0%, var(--plum-deep) 100%);
+  color: #f3e4c0;
+  padding: 5rem 0 4.5rem;
+  text-align: center;
+}
+
+header .mark { margin: 0 auto 1.75rem; display: block; }
+
+.logo {
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--gold-bright);
+}
+
+.tagline {
+  font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+  font-weight: 300;
+  margin-top: .5rem;
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  opacity: .8;
+  margin: 1rem auto 2rem;
+  max-width: 34rem;
+}
+
+.badge {
+  display: inline-block;
+  border: 1px solid rgba(243, 228, 192, .35);
+  border-radius: 999px;
+  padding: .4rem 1rem;
+  font-size: .875rem;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 2rem;
+  background: var(--gold-bright);
+  color: var(--plum-deep);
+  padding: .9rem 2.25rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.cta.soon {
+  background: transparent;
+  color: #f3e4c0;
+  border: 1px solid rgba(243, 228, 192, .45);
+  font-weight: 500;
+}
+
+/* ── Sections ─────────────────────────────────────────────────────────────── */
+
+section { padding: 4rem 0; }
+
+section h2 {
+  text-align: center;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  color: var(--gold);
+  margin-bottom: 2.5rem;
+}
+
+.features { background: var(--surface); }
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.5rem;
+}
+
+.feature {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1.75rem;
+}
+
+.feature h3 {
+  font-size: 1.05rem;
+  margin: .85rem 0 .4rem;
+}
+
+.feature p {
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.feature-icon { font-size: 1.75rem; }
+
+.languages { text-align: center; }
+
+.language-list {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* ── Legal pages ──────────────────────────────────────────────────────────── */
+
+.legal {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.legal h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  color: var(--gold);
+}
+
+.legal h2 {
+  font-size: 1.25rem;
+  margin: 2.5rem 0 .5rem;
+  color: var(--gold);
+  text-align: left;
+}
+
+.legal h3 {
+  font-size: 1rem;
+  margin: 1.5rem 0 .25rem;
+}
+
+.legal p, .legal ul { margin-bottom: .85rem; }
+.legal ul { padding-left: 1.25rem; }
+.legal li { margin: .35rem 0; }
+
+.updated, .back {
+  color: var(--muted);
+  font-size: .875rem;
+}
+
+.updated { margin-bottom: 2rem; }
+.back { margin-bottom: 1.5rem; }
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+
+footer {
+  background: var(--plum-deep);
+  color: rgba(243, 228, 192, .75);
+  text-align: center;
+  padding: 3rem 0;
+  font-size: .9rem;
+}
+
+footer a {
+  color: var(--gold-bright);
+  margin: 0 .75rem;
+  text-decoration: none;
+}
+
+footer a:hover { text-decoration: underline; }
+
+.footer-links { margin-bottom: 1.25rem; }
