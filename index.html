@@ -1,107 +1,199 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Ovation — beautiful event invitations you send as a single link. Weddings, baptisms, birthdays and reunions, with RSVPs, photos and wishes in one place.">
-<title>Ovation — Beautiful invitations, ready in minutes</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ovation — beautiful event invitations you send as one link. Weddings, baptisms, birthdays, reunions.">
+    <title>Ovation — Beautiful invitations, ready in minutes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2b2230;
+            background: #f6f0ea;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* ── Hero ── */
+        header {
+            background: linear-gradient(135deg, #5a2434 0%, #2e1119 100%);
+            color: #f3e4c0;
+            padding: 80px 20px 90px;
+            text-align: center;
+        }
+        .mark { display: block; margin: 0 auto 28px; }
+        .logo {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #d4af5e;
+            margin-bottom: 8px;
+        }
+        .tagline { font-size: 24px; font-weight: 300; margin-bottom: 40px; }
+        .swiss-badge {
+            display: inline-block;
+            background: #d52b1e;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .cta {
+            display: inline-block;
+            margin-top: 40px;
+            background: #d4af5e;
+            color: #2e1119;
+            padding: 16px 44px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.3);
+        }
+        .cta.soon { background: transparent; color: #f3e4c0; border: 2px solid #d4af5e; box-shadow: none; }
+
+        /* ── Features ── */
+        .features { background: white; padding: 70px 20px; }
+        .features h2 { text-align: center; font-size: 36px; color: #846823; margin-bottom: 50px; }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+        .feature {
+            text-align: center;
+            padding: 36px 28px;
+            background: #f6f0ea;
+            border-radius: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .feature:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(72,29,39,0.14); }
+        .feature-icon { font-size: 48px; margin-bottom: 18px; }
+        .feature h3 { font-size: 20px; margin-bottom: 10px; color: #481d27; }
+        .feature p { color: #6e665e; font-size: 16px; }
+
+        /* ── Occasions ── */
+        .occasions { background: #481d27; color: #f3e4c0; padding: 70px 20px; text-align: center; }
+        .occasions h2 { font-size: 36px; color: #d4af5e; margin-bottom: 40px; }
+        .occasion-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+        .occasion {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(212,175,94,0.35);
+            border-radius: 30px;
+            padding: 12px 26px;
+            font-size: 18px;
+        }
+
+        /* ── Languages ── */
+        .languages { background: white; padding: 60px 20px; text-align: center; }
+        .languages h2 { font-size: 30px; color: #846823; margin-bottom: 20px; }
+        .language-list { font-size: 18px; color: #6e665e; }
+
+        /* ── Footer ── */
+        footer { background: #2e1119; color: rgba(243,228,192,0.75); text-align: center; padding: 40px 20px; }
+        footer a { color: #d4af5e; text-decoration: none; margin: 0 15px; }
+        footer a:hover { text-decoration: underline; }
+        .footer-links { margin-bottom: 20px; }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 40px; }
+            .tagline { font-size: 20px; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <div class="container">
-    <!-- The app's own mark: the ring that holds a gathering, and the spark of it. -->
-    <svg class="mark" width="88" height="88" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-      <circle cx="50" cy="50" r="34" stroke="#d4af5e" stroke-width="1.5" opacity=".55"/>
-      <circle cx="52" cy="52" r="28" stroke="#d4af5e" stroke-width="1.5" opacity=".9"/>
-      <path d="M50 44l1.6 4.4L56 50l-4.4 1.6L50 56l-1.6-4.4L44 50l4.4-1.6z" fill="#f3e4c0"/>
-      <circle cx="43" cy="57" r="1.9" fill="#f3e4c0" opacity=".85"/>
-      <circle cx="58" cy="45" r="1.5" fill="#f3e4c0" opacity=".7"/>
-      <circle cx="57" cy="58" r="1.2" fill="#f3e4c0" opacity=".6"/>
-    </svg>
+    <header>
+        <div class="container">
+            <svg class="mark" width="96" height="96" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+                <circle cx="50" cy="50" r="34" stroke="#d4af5e" stroke-width="1.5" opacity=".55"/>
+                <circle cx="52" cy="52" r="28" stroke="#d4af5e" stroke-width="1.5" opacity=".9"/>
+                <path d="M50 44l1.6 4.4L56 50l-4.4 1.6L50 56l-1.6-4.4L44 50l4.4-1.6z" fill="#f3e4c0"/>
+                <circle cx="43" cy="57" r="1.9" fill="#f3e4c0" opacity=".85"/>
+                <circle cx="58" cy="45" r="1.5" fill="#f3e4c0" opacity=".7"/>
+                <circle cx="57" cy="58" r="1.2" fill="#f3e4c0" opacity=".6"/>
+            </svg>
+            <div class="logo">Ovation</div>
+            <div class="tagline">Beautiful invitations, ready in minutes.</div>
+            <div class="swiss-badge">🇨🇭 Made in Switzerland</div>
+            <br>
+            <span class="cta soon">Coming soon to the App Store &amp; Google Play</span>
+        </div>
+    </header>
 
-    <div class="logo">Ovation</div>
-    <div class="tagline">Beautiful invitations, ready in minutes.</div>
-    <p class="subtitle">
-      Build the invitation for your wedding, baptism, birthday or reunion, and send it as one link.
-      Guests open it without an account and reply on the spot.
-    </p>
-    <div class="badge">🇨🇭 Made in Switzerland</div>
-    <br>
-    <span class="cta soon">Coming soon to the App Store and Google Play</span>
-  </div>
-</header>
+    <section class="features">
+        <div class="container">
+            <h2>Why Ovation?</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">💌</div>
+                    <h3>Designed to be sent</h3>
+                    <p>Elegant wording, palette and emblem for the occasion. Your photo on the cover.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✅</div>
+                    <h3>Replies in one place</h3>
+                    <p>Who's coming, with how many. No chasing.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📍</div>
+                    <h3>Where and when</h3>
+                    <p>Ceremony, reception, party — each with a tap that opens the exact spot in maps.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📷</div>
+                    <h3>Shared photos</h3>
+                    <p>Guests add theirs. The day comes back to one place.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✍️</div>
+                    <h3>Guest book</h3>
+                    <p>Wishes from everyone — including those who couldn't make it.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔗</div>
+                    <h3>One link, no accounts</h3>
+                    <p>Guests install nothing and sign up for nothing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="features">
-  <div class="container">
-    <h2>What Ovation does</h2>
-    <div class="feature-grid">
+    <section class="occasions">
+        <div class="container">
+            <h2>For every occasion</h2>
+            <div class="occasion-list">
+                <span class="occasion">💍 Wedding</span>
+                <span class="occasion">🕯️ Baptism</span>
+                <span class="occasion">🎂 Birthday</span>
+                <span class="occasion">🎓 Promotion</span>
+                <span class="occasion">🎉 Reunion</span>
+            </div>
+        </div>
+    </section>
 
-      <div class="feature">
-        <div class="feature-icon">💌</div>
-        <h3>Invitations worth sending</h3>
-        <p>Wording that fits the occasion, a palette and an emblem to match, and your own photo on
-        the cover — or a designed one until you pick it.</p>
-      </div>
+    <section class="languages">
+        <div class="container">
+            <h2>Available in 9 languages</h2>
+            <p class="language-list">English • Ελληνικά • Deutsch • Français • Italiano • Español • Türkçe • Română • Polski</p>
+        </div>
+    </section>
 
-      <div class="feature">
-        <div class="feature-icon">✅</div>
-        <h3>Replies that add up</h3>
-        <p>Guests say whether they are coming and with how many. You see the count, the names and
-        the messages, without chasing anyone.</p>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">📍</div>
-        <h3>Where to be, and when</h3>
-        <p>Ceremony, reception, party — each with its time and place, and a tap that opens the
-        exact spot in maps.</p>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">📷</div>
-        <h3>The photos afterwards</h3>
-        <p>Guests add what they took to a shared gallery, so the day comes back to one place
-        instead of scattering across phones.</p>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">✍️</div>
-        <h3>A guest book that travels</h3>
-        <p>Wishes written from anywhere, including by the people who could not make it.</p>
-      </div>
-
-      <div class="feature">
-        <div class="feature-icon">🔗</div>
-        <h3>One link, no accounts</h3>
-        <p>Guests need nothing installed and nothing signed up for. Only the person hosting keeps
-        an account.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="languages">
-  <div class="container">
-    <h2>Available in 9 languages</h2>
-    <p class="language-list">
-      English • Ελληνικά • Deutsch • Français • Italiano • Español • Türkçe • Română • Polski
-    </p>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <div class="footer-links">
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms of Use</a>
-      <a href="mailto:support@ovationapp.ch">Contact</a>
-    </div>
-    <p>&copy; 2026 Ovation. Made in Switzerland.</p>
-  </div>
-</footer>
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="/privacy.html">Privacy Policy</a>
+                <a href="/terms.html">Terms of Use</a>
+                <a href="mailto:support@ovationapp.ch">Contact</a>
+            </div>
+            <p>&copy; 2026 Ovation. Made in Switzerland.</p>
+        </div>
+    </footer>
 
 </body>
 </html>
