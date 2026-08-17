@@ -104,9 +104,23 @@
             .tagline { font-size: 20px; }
             .feature-grid { grid-template-columns: 1fr; }
         }
+        /* Shown only when Supabase has just sent someone here from a confirmation link. */
+        #auth-notice {
+            display: none;
+            background: #2f5d3a;
+            color: #eaf6ec;
+            text-align: center;
+            padding: 16px 20px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        #auth-notice.error { background: #6b2733; color: #f8e6e9; }
+        #auth-notice strong { display: block; font-size: 18px; margin-bottom: 3px; }
     </style>
 </head>
 <body>
+
+    <div id="auth-notice" role="status"></div>
 
     <header>
         <div class="container">
@@ -194,6 +208,50 @@
             <p>&copy; 2026 Ovation. Made in Switzerland.</p>
         </div>
     </footer>
+
+    <script>
+    // Supabase sends people here after they click a link in one of its emails, and says what
+    // happened only in the URL fragment. Without this the page looks identical to a plain
+    // visit: someone confirms an address, lands on a marketing page, and has no way to tell
+    // whether it worked. The tokens are read and then stripped from the address bar, so a
+    // shared or bookmarked URL cannot carry a live session with it.
+    (function () {
+        var hash = window.location.hash.slice(1);
+        if (!hash) return;
+
+        var p = new URLSearchParams(hash);
+        var error = p.get('error_description') || p.get('error');
+        var type = p.get('type');
+        if (!error && !p.get('access_token')) return;
+
+        var box = document.getElementById('auth-notice');
+        var title, body;
+
+        if (error) {
+            box.className = 'error';
+            title = 'That link did not work';
+            body = p.get('error_code') === 'otp_expired'
+                ? 'It has expired or was already used. Ask for a new one from the app.'
+                : decodeURIComponent(error.replace(/\+/g, ' '));
+        } else if (type === 'recovery') {
+            title = 'Identity confirmed';
+            body = 'Go back to the Ovation app to finish setting your new password.';
+        } else if (type === 'email_change') {
+            title = 'New email address confirmed';
+            body = 'You can sign in with it from now on.';
+        } else {
+            title = 'Email address confirmed';
+            body = 'Your Ovation account is ready — open the app and sign in.';
+        }
+
+        box.innerHTML = '<strong></strong><span></span>';
+        box.firstChild.textContent = title;
+        box.lastChild.textContent = body;
+        box.style.display = 'block';
+
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+    })();
+    </script>
 
 </body>
 </html>
