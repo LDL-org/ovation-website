@@ -7,6 +7,7 @@
       "namespace": "android_app",
       "package_name": "org.applicious.ovation",
       "sha256_cert_fingerprints": [
+        "BA:72:E1:D5:84:2F:7C:37:43:10:44:76:45:99:16:21:4C:F8:31:FC:F8:A0:87:3F:ED:9B:5D:FA:7E:84:F3:79",
         "00:AC:47:D4:C0:C3:8E:D7:5A:4D:65:20:EA:27:4B:A1:51:B4:EC:BB:95:6A:25:DB:CC:0A:7F:9F:A8:79:8D:A8",
         "AB:89:EB:AF:EE:D0:7F:DF:03:DF:51:9C:B0:05:16:41:B3:D7:73:D9:F9:93:04:32:07:5F:B0:28:B3:B7:FB:E1",
         "0A:F1:45:6C:69:05:BF:AF:92:90:D7:7D:CB:BA:8A:24:7D:65:95:34:73:EB:E2:07:3D:CC:27:6D:32:4B:4A:5F"
