@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Ovation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+/* The invitation as a guest sees it, in a browser.
+   Colours come from the event's own theme at runtime, so a baptism arrives in its pastels and
+   a birthday in its coral — the same five palettes the app ships. */
+:root{
+  --primary:#846823; --on-primary:#fff; --primary-container:#F3E4C0; --on-primary-container:#3A2D06;
+  --secondary:#6B3F5E; --background:#F6F0EA; --surface:#fff;
+  --on-surface:#2B2230; --on-surface-variant:#6E665E;
+  --radius:18px;
+  --serif:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--background);color:var(--on-surface);font-family:var(--sans);line-height:1.6;
+     -webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:0 14px 140px}
+h1,h2,.script{font-family:var(--serif)}
+.script{font-family:"Great Vibes",var(--serif);font-weight:400}
+
+/* hero */
+.cover{position:relative;height:44vw;max-height:260px;min-height:170px;overflow:hidden;
+       background:var(--primary-container)}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.cover .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+       background:linear-gradient(135deg,var(--primary-container),var(--background))}
+.cover .fallback svg{width:96px;height:96px;color:var(--primary);opacity:.5}
+
+.card{background:var(--surface);border-radius:var(--radius);padding:20px;margin:14px 0;
+      box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.headcard{margin-top:-42px;position:relative;text-align:center}
+.headcard h1{font-size:27px;line-height:1.25;color:var(--on-surface)}
+.headcard .when{color:var(--on-surface-variant);font-size:15px;margin-top:4px}
+.rule{height:1px;background:rgba(0,0,0,.08);margin:16px 0}
+.count{display:flex;justify-content:space-around;text-align:center}
+.count b{display:block;font-family:var(--serif);font-size:26px;color:var(--primary);font-weight:700}
+.count span{font-size:12px;color:var(--on-surface-variant)}
+
+h2{font-size:18px;display:flex;align-items:center;gap:9px}
+h2 .ic{width:19px;height:19px;color:var(--primary);flex:none}
+h2::after{content:"";display:block}
+.h2rule{width:34px;height:2px;background:var(--primary);margin:7px 0 15px;border-radius:2px}
+
+/* invitation */
+.inv{text-align:center}
+.inv .names{font-size:37px;color:var(--primary);line-height:1.3;margin:2px 0 10px}
+.inv .sym{width:66px;height:66px;color:var(--primary);margin:4px auto 14px;display:block}
+.inv .body{font-size:16px;color:var(--on-surface)}
+.inv .stamp{margin-top:18px}
+.inv .stamp .wd{color:var(--on-surface-variant);font-size:14px}
+.inv .stamp .dt{font-size:21px;font-family:var(--serif);margin:2px 0}
+.inv .stamp .hr{font-size:17px;font-family:var(--serif);font-weight:700}
+.inv .grp{margin-top:16px}
+.inv .grp .cap{color:var(--on-surface-variant);font-size:13px}
+.inv .grp .who{font-size:15px}
+a{color:var(--primary)}
+a.venue{font-weight:600;text-decoration:underline}
+
+/* schedule */
+.mile{display:flex;gap:13px;padding:11px 0;align-items:flex-start}
+.mile+.mile{border-top:1px solid rgba(0,0,0,.06)}
+.mile .dot{width:9px;height:9px;border-radius:50%;background:var(--primary);margin-top:8px;flex:none}
+.mile .t{font-weight:600;font-size:15px}
+.mile .sub{color:var(--on-surface-variant);font-size:14px}
+
+/* people */
+.pgrid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.person{width:88px;text-align:center}
+.person .av{width:62px;height:62px;border-radius:50%;margin:0 auto 6px;object-fit:cover;display:block;
+   background:var(--primary-container);color:var(--on-primary-container);
+   display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;overflow:hidden}
+.person .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.person .nm{font-size:13px;font-weight:600;line-height:1.35}
+.person .rl{font-size:12px;color:var(--on-surface-variant)}
+
+/* photos */
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.pg img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block;cursor:zoom-in}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.94);display:flex;align-items:center;
+    justify-content:center;z-index:60;padding:16px}
+.lb img{max-width:100%;max-height:100%;border-radius:8px}
+
+/* guest book */
+.wish{background:var(--primary-container);border-radius:14px;padding:13px 15px;margin-bottom:9px}
+.wish .who{font-weight:700;font-size:14px;color:var(--on-primary-container)}
+.wish .msg{font-size:15px;color:var(--on-primary-container)}
+
+/* contact & gifts */
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0}
+.row+.row{border-top:1px solid rgba(0,0,0,.06)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;word-break:break-all}
+
+/* form */
+label{display:block;font-size:13px;color:var(--on-surface-variant);margin:12px 0 5px}
+input,textarea{width:100%;font:inherit;font-size:16px;padding:12px 13px;border:1px solid rgba(0,0,0,.18);
+  border-radius:11px;background:var(--surface);color:var(--on-surface)}
+input:focus,textarea:focus{outline:2px solid var(--primary);outline-offset:-1px;border-color:transparent}
+textarea{min-height:82px;resize:vertical}
+.choice{display:flex;gap:10px;margin-top:6px}
+.choice button{flex:1;padding:13px;border-radius:12px;border:1px solid rgba(0,0,0,.18);
+  background:var(--surface);font:inherit;font-weight:600;color:var(--on-surface);cursor:pointer}
+.choice button[aria-pressed="true"]{background:var(--primary-container);border-color:var(--primary)}
+.check{display:flex;align-items:center;gap:10px;margin-top:11px;font-size:15px;cursor:pointer}
+.check input{width:20px;height:20px;flex:none;accent-color:var(--primary)}
+.step{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:15px}
+.step .pm{display:flex;align-items:center;gap:14px}
+.step button{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,.18);
+  background:var(--surface);font-size:19px;line-height:1;cursor:pointer;color:var(--on-surface)}
+.btn{display:block;width:100%;padding:16px;border:0;border-radius:28px;background:var(--primary);
+  color:var(--on-primary);font:inherit;font-size:16px;font-weight:700;cursor:pointer;text-align:center;
+  text-decoration:none}
+.btn[disabled]{opacity:.45}
+.btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.err{color:#B3261E;font-size:14px;margin-top:10px}
+.ok{color:var(--primary);font-size:15px;margin-top:10px}
+
+/* sticky reply */
+.sticky{position:fixed;left:0;right:0;bottom:0;padding:12px 14px calc(12px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--background) 62%,transparent);z-index:40}
+.sticky .inner{max-width:560px;margin:0 auto}
+.deadline{text-align:center;font-size:12px;color:var(--on-surface-variant);margin-top:7px}
+
+/* get-the-app */
+.promo{background:#2E1119;color:#F3E4C0;border-radius:var(--radius);padding:22px;margin:18px 0 0;
+  text-align:center}
+.mark{width:52px;height:52px;margin:0 auto 10px;display:block;color:var(--primary)}
+.promo .mark{color:#D4AF5E}
+.promo h3{font-family:var(--serif);font-size:21px;font-weight:700}
+.promo p{font-size:14px;color:rgba(243,228,192,.78);margin:6px 0 15px}
+.promo .stores{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.promo .stores a{display:inline-block;padding:11px 17px;border-radius:22px;background:#D4AF5E;
+  color:#2E1119;font-weight:700;font-size:14px;text-decoration:none}
+.foot{text-align:center;color:var(--on-surface-variant);font-size:12px;padding:18px 0 0}
+.foot a{color:var(--on-surface-variant)}
+
+.center{text-align:center}
+.muted{color:var(--on-surface-variant)}
+.spin{width:26px;height:26px;border:3px solid rgba(0,0,0,.12);border-top-color:var(--primary);
+  border-radius:50%;animation:sp .8s linear infinite;margin:60px auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div id="app"><div class="spin"></div></div>
+
+<script>
+const DATA = {"strings":{"en":{"section_invitation":"Invitation","section_schedule":"Where to be","section_people":"The people","section_story":"Our story","section_gift_registry":"Gift registry","section_photos":"Guest photos","section_guestbook":"Guest book","section_contact":"Contact","countdown_days":"Days","countdown_hours":"Hours","countdown_minutes":"Minutes","countdown_seconds":"Sec.","countdown_started":"It has begun! 🎉","rsvp_declare":"Reply to the invitation","rsvp_cta_edit":"Change your reply","rsvp_form_title":"Your reply","rsvp_title":"Will you join us?","rsvp_declined":"I can't make it","rsvp_name_required":"Full name *","rsvp_email":"Email","rsvp_phone":"Phone","rsvp_message":"Message (optional)","rsvp_adults_count":"Number of adults","rsvp_children_count":"Number of children","rsvp_terms_prefix":"I accept the ","rsvp_terms_word":"terms","rsvp_terms_title":"Terms & conditions","rsvp_terms_body":"• The details you provide (name, email, phone) are used only to organise this event.\n\n• Photos and video may be taken during the event, in which you may appear.\n\n• Photos you upload through the app will be visible to other guests.\n\n• Your reply helps us plan (catering, seating). Please let us know in good time if anything changes.","rsvp_pick_attendance":"Choose whether you can come.","rsvp_thanks_attending":"Thank you! We can't wait to see you 🎉","rsvp_thanks_missed":"Thank you for letting us know. You'll be missed!","rsvp_can_change":"You can change your reply whenever you like.","rsvp_deadline_label":"Reply by","segment_coming":"I'll be there","segment_ceremony":"I'll attend the ceremony","segment_baptism_ceremony":"I'll attend the christening","segment_reception":"I'll attend the reception","segment_wedding":"I'll attend the wedding","segment_baptism":"I'll attend the baptism","segment_party":"I'll be at the party","guestbook_title":"Guest book","guestbook_empty":"No wishes yet","guestbook_be_first":"Be the first!","guestbook_add":"Leave a wish","guestbook_your_name":"Your name","guestbook_your_message":"Your wish… 🎉","photos_empty":"No photos yet","photos_be_first":"Be the first to upload one!","gift_iban":"IBAN","gift_bank":"Bank","gift_account_holder":"Account holder","gift_copy_iban":"Copy IBAN","caption_families":"The families","caption_koumbaroi":"The witnesses","caption_godparents":"The godparents","caption_both_sponsors":"Witnesses & godparents","role_couple":"The couple","role_child":"The child","role_celebrant":"Celebrating","role_parents":"Parents","role_godparents":"Godparents","role_best_man":"Best man","role_maid_of_honor":"Maid of honour","role_siblings":"Siblings","role_host":"Hosted by","date_long":"%1$d %2$s %3$d","month_1":"January","month_2":"February","month_3":"March","month_4":"April","month_5":"May","month_6":"June","month_7":"July","month_8":"August","month_9":"September","month_10":"October","month_11":"November","month_12":"December","weekday_1":"Monday","weekday_2":"Tuesday","weekday_3":"Wednesday","weekday_4":"Thursday","weekday_5":"Friday","weekday_6":"Saturday","weekday_7":"Sunday","promo_line":"Beautiful invitations, ready in minutes. Create your own.","nf_title":"This invitation could not be opened","nf_body":"The link may be incomplete or the invitation may have been taken down. Ask whoever invited you for a fresh link.","nf_nokey":"This link is missing the part that unlocks the invitation. Ask whoever invited you to send it again.","nf_expired":"This invitation has expired.","nf_closed":"Replies for this event are closed."},"de":{"section_invitation":"Einladung","section_schedule":"Wo wir sein werden","section_people":"Die Personen","section_story":"Unsere Geschichte","section_gift_registry":"Geschenkeliste","section_photos":"Gästefotos","section_guestbook":"Gästebuch","section_contact":"Kontakt","countdown_days":"Tage","countdown_hours":"Stunden","countdown_minutes":"Minuten","countdown_seconds":"Sek.","countdown_started":"Es hat begonnen! 🎉","rsvp_declare":"Auf die Einladung antworten","rsvp_cta_edit":"Antwort ändern","rsvp_form_title":"Ihre Antwort","rsvp_title":"Sind Sie dabei?","rsvp_declined":"Ich kann leider nicht kommen","rsvp_name_required":"Vollständiger Name *","rsvp_email":"E-Mail","rsvp_phone":"Telefon","rsvp_message":"Nachricht (optional)","rsvp_adults_count":"Anzahl der Erwachsenen","rsvp_children_count":"Anzahl der Kinder","rsvp_terms_prefix":"Ich akzeptiere die ","rsvp_terms_word":"Bedingungen","rsvp_terms_title":"Bedingungen","rsvp_terms_body":"• Die von Ihnen angegebenen Daten (Name, E-Mail, Telefon) werden nur zur Organisation dieser Veranstaltung verwendet.\n\n• Während der Veranstaltung können Fotos und Videos aufgenommen werden, auf denen Sie zu sehen sein könnten.\n\n• Fotos, die Sie über die App hochladen, sind für andere Gäste sichtbar.\n\n• Ihre Antwort hilft uns bei der Planung (Catering, Sitzordnung). Bitte geben Sie uns rechtzeitig Bescheid, falls sich etwas ändert.","rsvp_pick_attendance":"Wählen Sie, ob Sie kommen können.","rsvp_thanks_attending":"Vielen Dank! Wir freuen uns riesig auf Sie 🎉","rsvp_thanks_missed":"Danke, dass Sie uns Bescheid gegeben haben. Wir werden Sie vermissen!","rsvp_can_change":"Sie können Ihre Antwort jederzeit ändern.","rsvp_deadline_label":"Antwort bis","segment_coming":"Ich werde dabei sein","segment_ceremony":"Ich nehme an der Zeremonie teil","segment_baptism_ceremony":"Ich nehme an der Taufe teil","segment_reception":"Ich nehme an der Feier teil","segment_wedding":"Ich nehme an der Hochzeit teil","segment_baptism":"Ich nehme an der Taufe teil","segment_party":"Ich bin bei der Party dabei","guestbook_title":"Gästebuch","guestbook_empty":"Noch keine Wünsche","guestbook_be_first":"Seien Sie die Ersten!","guestbook_add":"Wunsch hinterlassen","guestbook_your_name":"Ihr Name","guestbook_your_message":"Ihr Wunsch… 🎉","photos_empty":"Noch keine Fotos","photos_be_first":"Seien Sie die Ersten, die eins hochladen!","gift_iban":"IBAN","gift_bank":"Bank","gift_account_holder":"Kontoinhaber","gift_copy_iban":"IBAN kopieren","caption_families":"Die Familien","caption_koumbaroi":"Die Trauzeugen","caption_godparents":"Die Paten","caption_both_sponsors":"Trauzeugen & Paten","role_couple":"Das Paar","role_child":"Das Kind","role_celebrant":"Die gefeierte Person","role_parents":"Eltern","role_godparents":"Paten","role_best_man":"Trauzeuge","role_maid_of_honor":"Trauzeugin","role_siblings":"Geschwister","role_host":"Gastgeber","date_long":"%1$d. %2$s %3$d","month_1":"Januar","month_2":"Februar","month_3":"März","month_4":"April","month_5":"Mai","month_6":"Juni","month_7":"Juli","month_8":"August","month_9":"September","month_10":"Oktober","month_11":"November","month_12":"Dezember","weekday_1":"Montag","weekday_2":"Dienstag","weekday_3":"Mittwoch","weekday_4":"Donnerstag","weekday_5":"Freitag","weekday_6":"Samstag","weekday_7":"Sonntag","promo_line":"Schöne Einladungen, in Minuten fertig. Erstellen Sie Ihre eigene.","nf_title":"Diese Einladung konnte nicht geöffnet werden","nf_body":"Der Link ist möglicherweise unvollständig, oder die Einladung wurde entfernt. Bitten Sie um einen neuen Link.","nf_nokey":"Diesem Link fehlt der Teil, der die Einladung freischaltet. Bitten Sie darum, ihn erneut zu senden.","nf_expired":"Diese Einladung ist abgelaufen.","nf_closed":"Antworten sind für diese Veranstaltung geschlossen."},"el":{"section_invitation":"Πρόσκληση","section_schedule":"Πού θα είμαστε","section_people":"Τα πρόσωπα","section_story":"Η ιστορία μας","section_gift_registry":"Δώρα","section_photos":"Φωτογραφίες από καλεσμένους","section_guestbook":"Βιβλίο ευχών","section_contact":"Επικοινωνία","countdown_days":"Μέρες","countdown_hours":"Ώρες","countdown_minutes":"Λεπτά","countdown_seconds":"Δεύτ.","countdown_started":"Ξεκίνησε! 🎉","rsvp_declare":"Δήλωσε συμμετοχή","rsvp_cta_edit":"Άλλαξε την απάντησή σου","rsvp_form_title":"Δήλωση συμμετοχής","rsvp_title":"Θα έρθεις;","rsvp_declined":"Δεν θα μπορέσω","rsvp_name_required":"Ονοματεπώνυμο *","rsvp_email":"Email","rsvp_phone":"Τηλέφωνο","rsvp_message":"Μήνυμα (προαιρετικό)","rsvp_adults_count":"Αριθμός ενηλίκων","rsvp_children_count":"Αριθμός παιδιών","rsvp_terms_prefix":"Αποδέχομαι τους ","rsvp_terms_word":"όρους","rsvp_terms_title":"Όροι & Προϋποθέσεις","rsvp_terms_body":"• Τα στοιχεία που δηλώνεις (όνομα, email, τηλέφωνο) χρησιμοποιούνται αποκλειστικά για την οργάνωση της εκδήλωσης.\n\n• Ενδέχεται να τραβηχτούν φωτογραφίες/βίντεο κατά τη διάρκεια της εκδήλωσης, στις οποίες μπορεί να εμφανίζεσαι.\n\n• Φωτογραφίες που ανεβάζεις μέσω της εφαρμογής θα είναι ορατές σε άλλους καλεσμένους.\n\n• Η δήλωση συμμετοχής βοηθά στον σχεδιασμό (catering, καθίσματα). Ενημέρωσέ μας έγκαιρα για τυχόν αλλαγή.","rsvp_pick_attendance":"Διάλεξε αν θα έρθεις.","rsvp_thanks_attending":"Ευχαριστούμε! Ανυπομονούμε να σε δούμε 🎉","rsvp_thanks_missed":"Ευχαριστούμε που μας ενημέρωσες. Θα λείψεις!","rsvp_can_change":"Μπορείς να αλλάξεις την απάντησή σου όποτε θέλεις.","rsvp_deadline_label":"Απάντηση μέχρι","segment_coming":"Θα έρθω","segment_ceremony":"Θα παρευρεθώ στην τελετή","segment_baptism_ceremony":"Θα παρευρεθώ στο μυστήριο","segment_reception":"Θα παρευρεθώ στη δεξίωση","segment_wedding":"Θα παρευρεθώ στον γάμο","segment_baptism":"Θα παρευρεθώ στη βάφτιση","segment_party":"Θα έρθω στο πάρτι","guestbook_title":"Βιβλίο Ευχών","guestbook_empty":"Καμία ευχή ακόμα","guestbook_be_first":"Γίνε ο πρώτος!","guestbook_add":"Άφησε μια ευχή","guestbook_your_name":"Το όνομά σου","guestbook_your_message":"Η ευχή σου… 🎉","photos_empty":"Δεν υπάρχουν ακόμα φωτογραφίες","photos_be_first":"Γίνε ο πρώτος που θα ανεβάσει!","gift_iban":"IBAN","gift_bank":"Τράπεζα","gift_account_holder":"Δικαιούχος","gift_copy_iban":"Αντιγραφή IBAN","caption_families":"Οι οικογένειες","caption_koumbaroi":"Οι κουμπάροι","caption_godparents":"Οι νονοί","caption_both_sponsors":"Κουμπάροι & νονοί","role_couple":"Το ζευγάρι","role_child":"Το παιδί","role_celebrant":"Ο εορτάζων","role_parents":"Γονείς","role_godparents":"Νονοί","role_best_man":"Κουμπάρος","role_maid_of_honor":"Κουμπάρα","role_siblings":"Αδέλφια","role_host":"Διοργάνωση","date_long":"%1$d %2$s %3$d","month_1":"Ιανουαρίου","month_2":"Φεβρουαρίου","month_3":"Μαρτίου","month_4":"Απριλίου","month_5":"Μαΐου","month_6":"Ιουνίου","month_7":"Ιουλίου","month_8":"Αυγούστου","month_9":"Σεπτεμβρίου","month_10":"Οκτωβρίου","month_11":"Νοεμβρίου","month_12":"Δεκεμβρίου","weekday_1":"Δευτέρα","weekday_2":"Τρίτη","weekday_3":"Τετάρτη","weekday_4":"Πέμπτη","weekday_5":"Παρασκευή","weekday_6":"Σάββατο","weekday_7":"Κυριακή","promo_line":"Όμορφες προσκλήσεις, έτοιμες σε λίγα λεπτά. Φτιάξε τη δική σου.","nf_title":"Η πρόσκληση δεν άνοιξε","nf_body":"Ο σύνδεσμος μπορεί να είναι ελλιπής ή η πρόσκληση να έχει κατέβει. Ζήτησε καινούργιο σύνδεσμο από όποιον σε κάλεσε.","nf_nokey":"Από τον σύνδεσμο λείπει το κομμάτι που ξεκλειδώνει την πρόσκληση. Ζήτησε να σου τον ξαναστείλουν.","nf_expired":"Αυτή η πρόσκληση έχει λήξει.","nf_closed":"Οι απαντήσεις για αυτή την εκδήλωση έχουν κλείσει."},"es":{"section_invitation":"Invitación","section_schedule":"Dónde estaremos","section_people":"Las personas","section_story":"Nuestra historia","section_gift_registry":"Lista de regalos","section_photos":"Fotos de los invitados","section_guestbook":"Libro de firmas","section_contact":"Contacto","countdown_days":"Días","countdown_hours":"Horas","countdown_minutes":"Minutos","countdown_seconds":"Seg.","countdown_started":"¡Ha comenzado! 🎉","rsvp_declare":"Responder a la invitación","rsvp_cta_edit":"Cambiar tu respuesta","rsvp_form_title":"Tu respuesta","rsvp_title":"¿Nos acompañas?","rsvp_declined":"No podré asistir","rsvp_name_required":"Nombre completo *","rsvp_email":"Correo electrónico","rsvp_phone":"Teléfono","rsvp_message":"Mensaje (opcional)","rsvp_adults_count":"Número de adultos","rsvp_children_count":"Número de niños","rsvp_terms_prefix":"Acepto las ","rsvp_terms_word":"condiciones","rsvp_terms_title":"Condiciones","rsvp_terms_body":"• Los datos que proporciones (nombre, correo, teléfono) se usan únicamente para organizar este evento.\n\n• Durante el evento pueden tomarse fotos y vídeos en los que podrías aparecer.\n\n• Las fotos que subas a través de la aplicación serán visibles para el resto de invitados.\n\n• Tu respuesta nos ayuda a planificar (catering, distribución de mesas). Avísanos con tiempo si algo cambia.","rsvp_pick_attendance":"Indica si podrás venir.","rsvp_thanks_attending":"¡Gracias! Estamos deseando verte 🎉","rsvp_thanks_missed":"Gracias por avisarnos. ¡Te vamos a echar de menos!","rsvp_can_change":"Puedes cambiar tu respuesta cuando quieras.","rsvp_deadline_label":"Responder antes del","segment_coming":"Allí estaré","segment_ceremony":"Asistiré a la ceremonia","segment_baptism_ceremony":"Asistiré a la ceremonia de bautizo","segment_reception":"Asistiré al convite","segment_wedding":"Asistiré a la boda","segment_baptism":"Asistiré al bautizo","segment_party":"Estaré en la fiesta","guestbook_title":"Libro de firmas","guestbook_empty":"Todavía no hay ningún deseo","guestbook_be_first":"¡Sé el primero!","guestbook_add":"Dejar un deseo","guestbook_your_name":"Tu nombre","guestbook_your_message":"Tu deseo… 🎉","photos_empty":"Todavía no hay fotos","photos_be_first":"¡Sé el primero en subir una!","gift_iban":"IBAN","gift_bank":"Banco","gift_account_holder":"Titular de la cuenta","gift_copy_iban":"Copiar IBAN","caption_families":"Las familias","caption_koumbaroi":"Los testigos","caption_godparents":"Los padrinos","caption_both_sponsors":"Testigos y padrinos","role_couple":"La pareja","role_child":"El niño o la niña","role_celebrant":"La persona homenajeada","role_parents":"Los padres","role_godparents":"Los padrinos","role_best_man":"Padrino de boda","role_maid_of_honor":"Dama de honor","role_siblings":"Los hermanos","role_host":"Organizado por","date_long":"%1$d de %2$s de %3$d","month_1":"enero","month_2":"febrero","month_3":"marzo","month_4":"abril","month_5":"mayo","month_6":"junio","month_7":"julio","month_8":"agosto","month_9":"septiembre","month_10":"octubre","month_11":"noviembre","month_12":"diciembre","weekday_1":"Lunes","weekday_2":"Martes","weekday_3":"Miércoles","weekday_4":"Jueves","weekday_5":"Viernes","weekday_6":"Sábado","weekday_7":"Domingo","promo_line":"Invitaciones bonitas, listas en minutos. Crea la tuya.","nf_title":"No se pudo abrir esta invitación","nf_body":"Puede que el enlace esté incompleto o que la invitación se haya retirado. Pide un enlace nuevo a quien te invitó.","nf_nokey":"A este enlace le falta la parte que abre la invitación. Pide que te lo envíen de nuevo.","nf_expired":"Esta invitación ha caducado.","nf_closed":"Las respuestas para este evento están cerradas."},"fr":{"section_invitation":"Invitation","section_schedule":"Où nous serons","section_people":"Les personnes","section_story":"Notre histoire","section_gift_registry":"Liste de cadeaux","section_photos":"Photos des invités","section_guestbook":"Livre d'or","section_contact":"Contact","countdown_days":"Jours","countdown_hours":"Heures","countdown_minutes":"Minutes","countdown_seconds":"Sec.","countdown_started":"C'est parti ! 🎉","rsvp_declare":"Répondre à l'invitation","rsvp_cta_edit":"Modifier votre réponse","rsvp_form_title":"Votre réponse","rsvp_title":"Serez-vous des nôtres ?","rsvp_declined":"Je ne pourrai pas venir","rsvp_name_required":"Nom complet *","rsvp_email":"E-mail","rsvp_phone":"Téléphone","rsvp_message":"Message (facultatif)","rsvp_adults_count":"Nombre d'adultes","rsvp_children_count":"Nombre d'enfants","rsvp_terms_prefix":"J'accepte les ","rsvp_terms_word":"conditions","rsvp_terms_title":"Conditions","rsvp_terms_body":"• Les informations que vous fournissez (nom, e-mail, téléphone) ne sont utilisées que pour organiser cet événement.\n\n• Des photos et vidéos peuvent être prises pendant l'événement, sur lesquelles vous pourriez apparaître.\n\n• Les photos que vous ajoutez via l'application sont visibles par les autres invités.\n\n• Votre réponse nous aide à organiser l'événement (traiteur, plan de table). Merci de nous prévenir à temps en cas de changement.","rsvp_pick_attendance":"Indiquez si vous pouvez venir.","rsvp_thanks_attending":"Merci ! Nous avons hâte de vous voir 🎉","rsvp_thanks_missed":"Merci de nous avoir prévenus. Vous allez nous manquer !","rsvp_can_change":"Vous pouvez modifier votre réponse à tout moment.","rsvp_deadline_label":"Répondre avant le","segment_coming":"Je serai présent(e)","segment_ceremony":"Je serai à la cérémonie","segment_baptism_ceremony":"Je serai à la cérémonie de baptême","segment_reception":"Je serai à la réception","segment_wedding":"Je serai au mariage","segment_baptism":"Je serai au baptême","segment_party":"Je serai à la fête","guestbook_title":"Livre d'or","guestbook_empty":"Aucun vœu pour l'instant","guestbook_be_first":"Soyez le premier !","guestbook_add":"Laisser un vœu","guestbook_your_name":"Votre nom","guestbook_your_message":"Votre vœu… 🎉","photos_empty":"Aucune photo pour l'instant","photos_be_first":"Soyez le premier à en ajouter une !","gift_iban":"IBAN","gift_bank":"Banque","gift_account_holder":"Titulaire du compte","gift_copy_iban":"Copier l'IBAN","caption_families":"Les familles","caption_koumbaroi":"Les témoins","caption_godparents":"Les parrains et marraines","caption_both_sponsors":"Témoins & parrains-marraines","role_couple":"Le couple","role_child":"L'enfant","role_celebrant":"La personne fêtée","role_parents":"Les parents","role_godparents":"Les parrains et marraines","role_best_man":"Témoin","role_maid_of_honor":"Témoin","role_siblings":"La fratrie","role_host":"Organisé par","date_long":"%1$d %2$s %3$d","month_1":"janvier","month_2":"février","month_3":"mars","month_4":"avril","month_5":"mai","month_6":"juin","month_7":"juillet","month_8":"août","month_9":"septembre","month_10":"octobre","month_11":"novembre","month_12":"décembre","weekday_1":"Lundi","weekday_2":"Mardi","weekday_3":"Mercredi","weekday_4":"Jeudi","weekday_5":"Vendredi","weekday_6":"Samedi","weekday_7":"Dimanche","promo_line":"De belles invitations, prêtes en quelques minutes. Créez la vôtre.","nf_title":"Cette invitation n'a pas pu être ouverte","nf_body":"Le lien est peut-être incomplet, ou l'invitation a été retirée. Demandez un nouveau lien à la personne qui vous a invité.","nf_nokey":"Il manque à ce lien la partie qui ouvre l'invitation. Demandez qu'on vous le renvoie.","nf_expired":"Cette invitation a expiré.","nf_closed":"Les réponses sont closes pour cet événement."},"it":{"section_invitation":"Invito","section_schedule":"Dove saremo","section_people":"Le persone","section_story":"La nostra storia","section_gift_registry":"Lista regali","section_photos":"Foto degli invitati","section_guestbook":"Libro degli ospiti","section_contact":"Contatti","countdown_days":"Giorni","countdown_hours":"Ore","countdown_minutes":"Minuti","countdown_seconds":"Sec.","countdown_started":"È iniziato! 🎉","rsvp_declare":"Rispondi all'invito","rsvp_cta_edit":"Modifica la tua risposta","rsvp_form_title":"La tua risposta","rsvp_title":"Ci sarai?","rsvp_declined":"Non potrò venire","rsvp_name_required":"Nome completo *","rsvp_email":"Email","rsvp_phone":"Telefono","rsvp_message":"Messaggio (facoltativo)","rsvp_adults_count":"Numero di adulti","rsvp_children_count":"Numero di bambini","rsvp_terms_prefix":"Accetto le ","rsvp_terms_word":"condizioni","rsvp_terms_title":"Condizioni","rsvp_terms_body":"• I dati forniti (nome, email, telefono) sono usati solo per organizzare questo evento.\n\n• Durante l'evento potrebbero essere scattate foto e video in cui potresti comparire.\n\n• Le foto caricate tramite l'app saranno visibili agli altri invitati.\n\n• La tua risposta ci aiuta a organizzare (catering, disposizione dei tavoli). Avvisaci per tempo se qualcosa cambia.","rsvp_pick_attendance":"Indica se potrai venire.","rsvp_thanks_attending":"Grazie! Non vediamo l'ora di vederti 🎉","rsvp_thanks_missed":"Grazie per averci avvisati. Ci mancherai!","rsvp_can_change":"Puoi modificare la tua risposta quando vuoi.","rsvp_deadline_label":"Rispondere entro il","segment_coming":"Ci sarò","segment_ceremony":"Parteciperò alla cerimonia","segment_baptism_ceremony":"Parteciperò alla cerimonia di battesimo","segment_reception":"Parteciperò al ricevimento","segment_wedding":"Parteciperò al matrimonio","segment_baptism":"Parteciperò al battesimo","segment_party":"Sarò alla festa","guestbook_title":"Libro degli ospiti","guestbook_empty":"Ancora nessun augurio","guestbook_be_first":"Sii il primo!","guestbook_add":"Lascia un augurio","guestbook_your_name":"Il tuo nome","guestbook_your_message":"Il tuo augurio… 🎉","photos_empty":"Ancora nessuna foto","photos_be_first":"Sii il primo a caricarne una!","gift_iban":"IBAN","gift_bank":"Banca","gift_account_holder":"Intestatario del conto","gift_copy_iban":"Copia IBAN","caption_families":"Le famiglie","caption_koumbaroi":"I testimoni","caption_godparents":"I padrini","caption_both_sponsors":"Testimoni e padrini","role_couple":"Gli sposi","role_child":"Il bambino","role_celebrant":"Il festeggiato","role_parents":"I genitori","role_godparents":"I padrini","role_best_man":"Testimone","role_maid_of_honor":"Testimone","role_siblings":"I fratelli","role_host":"Organizzato da","date_long":"%1$d %2$s %3$d","month_1":"gennaio","month_2":"febbraio","month_3":"marzo","month_4":"aprile","month_5":"maggio","month_6":"giugno","month_7":"luglio","month_8":"agosto","month_9":"settembre","month_10":"ottobre","month_11":"novembre","month_12":"dicembre","weekday_1":"Lunedì","weekday_2":"Martedì","weekday_3":"Mercoledì","weekday_4":"Giovedì","weekday_5":"Venerdì","weekday_6":"Sabato","weekday_7":"Domenica","promo_line":"Inviti belli, pronti in pochi minuti. Crea il tuo.","nf_title":"Non è stato possibile aprire questo invito","nf_body":"Il link potrebbe essere incompleto o l'invito potrebbe essere stato rimosso. Chiedi un nuovo link a chi ti ha invitato.","nf_nokey":"A questo link manca la parte che sblocca l'invito. Chiedi che te lo inviino di nuovo.","nf_expired":"Questo invito è scaduto.","nf_closed":"Le risposte per questo evento sono chiuse."},"pl":{"section_invitation":"Zaproszenie","section_schedule":"Gdzie będziemy","section_people":"Osoby","section_story":"Nasza historia","section_gift_registry":"Lista prezentów","section_photos":"Zdjęcia od gości","section_guestbook":"Księga gości","section_contact":"Kontakt","countdown_days":"Dni","countdown_hours":"Godziny","countdown_minutes":"Minuty","countdown_seconds":"Sek.","countdown_started":"Zaczęło się! 🎉","rsvp_declare":"Odpowiedz na zaproszenie","rsvp_cta_edit":"Zmień odpowiedź","rsvp_form_title":"Twoja odpowiedź","rsvp_title":"Będziesz z nami?","rsvp_declined":"Niestety nie mogę przyjść","rsvp_name_required":"Imię i nazwisko *","rsvp_email":"E-mail","rsvp_phone":"Telefon","rsvp_message":"Wiadomość (opcjonalnie)","rsvp_adults_count":"Liczba dorosłych","rsvp_children_count":"Liczba dzieci","rsvp_terms_prefix":"Akceptuję ","rsvp_terms_word":"warunki","rsvp_terms_title":"Warunki","rsvp_terms_body":"• Podane przez Ciebie dane (imię i nazwisko, e-mail, telefon) są wykorzystywane wyłącznie do organizacji tego wydarzenia.\n\n• Podczas wydarzenia mogą być robione zdjęcia i filmy, na których możesz się pojawić.\n\n• Zdjęcia dodane przez aplikację będą widoczne dla innych gości.\n\n• Twoja odpowiedź pomaga nam w planowaniu (catering, rozmieszczenie gości). Daj nam znać z wyprzedzeniem, jeśli coś się zmieni.","rsvp_pick_attendance":"Wskaż, czy możesz przyjść.","rsvp_thanks_attending":"Dziękujemy! Nie możemy się doczekać, żeby Cię zobaczyć 🎉","rsvp_thanks_missed":"Dziękujemy za informację. Będzie nam Ciebie brakować!","rsvp_can_change":"Możesz zmienić swoją odpowiedź w każdej chwili.","rsvp_deadline_label":"Odpowiedz do","segment_coming":"Będę tam","segment_ceremony":"Będę na ceremonii","segment_baptism_ceremony":"Będę na ceremonii chrztu","segment_reception":"Będę na przyjęciu","segment_wedding":"Będę na weselu","segment_baptism":"Będę na chrzcie","segment_party":"Będę na imprezie","guestbook_title":"Księga gości","guestbook_empty":"Nie ma jeszcze żadnych życzeń","guestbook_be_first":"Bądź pierwszy!","guestbook_add":"Zostaw życzenia","guestbook_your_name":"Twoje imię","guestbook_your_message":"Twoje życzenia… 🎉","photos_empty":"Nie ma jeszcze żadnych zdjęć","photos_be_first":"Bądź pierwszy i dodaj jedno!","gift_iban":"IBAN","gift_bank":"Bank","gift_account_holder":"Właściciel konta","gift_copy_iban":"Kopiuj IBAN","caption_families":"Rodziny","caption_koumbaroi":"Świadkowie","caption_godparents":"Rodzice chrzestni","caption_both_sponsors":"Świadkowie i rodzice chrzestni","role_couple":"Para młoda","role_child":"Dziecko","role_celebrant":"Solenizant","role_parents":"Rodzice","role_godparents":"Rodzice chrzestni","role_best_man":"Drużba","role_maid_of_honor":"Druhna","role_siblings":"Rodzeństwo","role_host":"Organizator","date_long":"%1$d %2$s %3$d","month_1":"stycznia","month_2":"lutego","month_3":"marca","month_4":"kwietnia","month_5":"maja","month_6":"czerwca","month_7":"lipca","month_8":"sierpnia","month_9":"września","month_10":"października","month_11":"listopada","month_12":"grudnia","weekday_1":"Poniedziałek","weekday_2":"Wtorek","weekday_3":"Środa","weekday_4":"Czwartek","weekday_5":"Piątek","weekday_6":"Sobota","weekday_7":"Niedziela","promo_line":"Piękne zaproszenia, gotowe w kilka minut. Stwórz własne.","nf_title":"Nie udało się otworzyć tego zaproszenia","nf_body":"Link może być niepełny albo zaproszenie zostało usunięte. Poproś o nowy link osobę, która Cię zaprosiła.","nf_nokey":"W tym linku brakuje części, która otwiera zaproszenie. Poproś o ponowne przesłanie.","nf_expired":"To zaproszenie wygasło.","nf_closed":"Odpowiedzi dla tego wydarzenia są zamknięte."},"ro":{"section_invitation":"Invitație","section_schedule":"Unde vom fi","section_people":"Persoanele","section_story":"Povestea noastră","section_gift_registry":"Lista de cadouri","section_photos":"Fotografii de la invitați","section_guestbook":"Carte de oaspeți","section_contact":"Contact","countdown_days":"Zile","countdown_hours":"Ore","countdown_minutes":"Minute","countdown_seconds":"Sec.","countdown_started":"A început! 🎉","rsvp_declare":"Răspundeți la invitație","rsvp_cta_edit":"Modificați răspunsul","rsvp_form_title":"Răspunsul dumneavoastră","rsvp_title":"Veniți alături de noi?","rsvp_declined":"Din păcate nu pot veni","rsvp_name_required":"Nume complet *","rsvp_email":"E-mail","rsvp_phone":"Telefon","rsvp_message":"Mesaj (opțional)","rsvp_adults_count":"Numărul de adulți","rsvp_children_count":"Numărul de copii","rsvp_terms_prefix":"Accept ","rsvp_terms_word":"termeni","rsvp_terms_title":"Termeni","rsvp_terms_body":"• Datele pe care le furnizați (nume, e-mail, telefon) sunt folosite doar pentru organizarea acestui eveniment.\n\n• În timpul evenimentului pot fi făcute fotografii și filmări video în care ați putea apărea.\n\n• Fotografiile încărcate prin aplicație vor fi vizibile celorlalți invitați.\n\n• Răspunsul dumneavoastră ne ajută la planificare (catering, aranjarea meselor). Vă rugăm să ne anunțați din timp dacă ceva se schimbă.","rsvp_pick_attendance":"Indicați dacă puteți veni.","rsvp_thanks_attending":"Vă mulțumim! Abia așteptăm să vă vedem 🎉","rsvp_thanks_missed":"Vă mulțumim că ne-ați anunțat. Ne veți lipsi!","rsvp_can_change":"Puteți modifica răspunsul oricând.","rsvp_deadline_label":"Răspundeți până la","segment_coming":"Voi fi acolo","segment_ceremony":"Voi participa la ceremonie","segment_baptism_ceremony":"Voi participa la ceremonia de botez","segment_reception":"Voi participa la petrecere","segment_wedding":"Voi participa la nuntă","segment_baptism":"Voi participa la botez","segment_party":"Voi fi la petrecere","guestbook_title":"Carte de oaspeți","guestbook_empty":"Niciun mesaj momentan","guestbook_be_first":"Fiți primul!","guestbook_add":"Lasă un mesaj","guestbook_your_name":"Numele dumneavoastră","guestbook_your_message":"Mesajul dumneavoastră… 🎉","photos_empty":"Nicio fotografie momentan","photos_be_first":"Fiți primul care încarcă una!","gift_iban":"IBAN","gift_bank":"Bancă","gift_account_holder":"Titularul contului","gift_copy_iban":"Copiază IBAN","caption_families":"Familiile","caption_koumbaroi":"Nașii","caption_godparents":"Nașii","caption_both_sponsors":"Nași","role_couple":"Mirii","role_child":"Copilul","role_celebrant":"Sărbătoritul","role_parents":"Părinții","role_godparents":"Nașii","role_best_man":"Cavaler de onoare","role_maid_of_honor":"Domnișoară de onoare","role_siblings":"Frații","role_host":"Organizat de","date_long":"%1$d %2$s %3$d","month_1":"ianuarie","month_2":"februarie","month_3":"martie","month_4":"aprilie","month_5":"mai","month_6":"iunie","month_7":"iulie","month_8":"august","month_9":"septembrie","month_10":"octombrie","month_11":"noiembrie","month_12":"decembrie","weekday_1":"Luni","weekday_2":"Marți","weekday_3":"Miercuri","weekday_4":"Joi","weekday_5":"Vineri","weekday_6":"Sâmbătă","weekday_7":"Duminică","promo_line":"Invitații frumoase, gata în câteva minute. Creează-o pe a ta.","nf_title":"Această invitație nu a putut fi deschisă","nf_body":"Linkul poate fi incomplet sau invitația a fost retrasă. Cere un link nou celui care te-a invitat.","nf_nokey":"Acestui link îi lipsește partea care deschide invitația. Cere să îți fie trimis din nou.","nf_expired":"Această invitație a expirat.","nf_closed":"Răspunsurile pentru acest eveniment sunt închise."},"tr":{"section_invitation":"Davetiye","section_schedule":"Nerede olacağız","section_people":"Kişiler","section_story":"Hikayemiz","section_gift_registry":"Hediye listesi","section_photos":"Misafir fotoğrafları","section_guestbook":"Anı defteri","section_contact":"İletişim","countdown_days":"Gün","countdown_hours":"Saat","countdown_minutes":"Dakika","countdown_seconds":"Sn.","countdown_started":"Başladı! 🎉","rsvp_declare":"Davetiyeye cevap ver","rsvp_cta_edit":"Cevabınızı değiştirin","rsvp_form_title":"Cevabınız","rsvp_title":"Bize katılıyor musunuz?","rsvp_declined":"Maalesef gelemeyeceğim","rsvp_name_required":"Ad Soyad *","rsvp_email":"E-posta","rsvp_phone":"Telefon","rsvp_message":"Mesaj (opsiyonel)","rsvp_adults_count":"Yetişkin sayısı","rsvp_children_count":"Çocuk sayısı","rsvp_terms_prefix":"Kabul ediyorum: ","rsvp_terms_word":"şartlar","rsvp_terms_title":"Şartlar ve koşullar","rsvp_terms_body":"• Sağladığınız bilgiler (ad, e-posta, telefon) yalnızca bu etkinliği organize etmek için kullanılır.\n\n• Etkinlik sırasında fotoğraf ve video çekilebilir; bunlarda yer alabilirsiniz.\n\n• Uygulama üzerinden yüklediğiniz fotoğraflar diğer misafirler tarafından görülebilir.\n\n• Cevabınız planlama yapmamıza yardımcı olur (catering, oturma düzeni). Bir değişiklik olursa lütfen bize zamanında bildirin.","rsvp_pick_attendance":"Gelip gelemeyeceğinizi seçin.","rsvp_thanks_attending":"Teşekkürler! Sizi görmek için sabırsızlanıyoruz 🎉","rsvp_thanks_missed":"Bize bildirdiğiniz için teşekkürler. Sizi özleyeceğiz!","rsvp_can_change":"Cevabınızı istediğiniz zaman değiştirebilirsiniz.","rsvp_deadline_label":"Son cevap tarihi","segment_coming":"Orada olacağım","segment_ceremony":"Törene katılacağım","segment_baptism_ceremony":"Vaftiz törenine katılacağım","segment_reception":"Davete katılacağım","segment_wedding":"Düğüne katılacağım","segment_baptism":"Vaftize katılacağım","segment_party":"Partide olacağım","guestbook_title":"Anı defteri","guestbook_empty":"Henüz dilek yok","guestbook_be_first":"İlk siz olun!","guestbook_add":"Dilek bırak","guestbook_your_name":"Adınız","guestbook_your_message":"Dileğiniz… 🎉","photos_empty":"Henüz fotoğraf yok","photos_be_first":"İlk yükleyen siz olun!","gift_iban":"IBAN","gift_bank":"Banka","gift_account_holder":"Hesap sahibi","gift_copy_iban":"IBAN'ı kopyala","caption_families":"Aileler","caption_koumbaroi":"Şahitler","caption_godparents":"Vaftiz ebeveynler","caption_both_sponsors":"Şahitler ve vaftiz ebeveynler","role_couple":"Çift","role_child":"Çocuk","role_celebrant":"Kutlanan","role_parents":"Anne baba","role_godparents":"Vaftiz anne baba","role_best_man":"Sağdıç","role_maid_of_honor":"Nedime","role_siblings":"Kardeşler","role_host":"Ev sahibi","date_long":"%1$d %2$s %3$d","month_1":"Ocak","month_2":"Şubat","month_3":"Mart","month_4":"Nisan","month_5":"Mayıs","month_6":"Haziran","month_7":"Temmuz","month_8":"Ağustos","month_9":"Eylül","month_10":"Ekim","month_11":"Kasım","month_12":"Aralık","weekday_1":"Pazartesi","weekday_2":"Salı","weekday_3":"Çarşamba","weekday_4":"Perşembe","weekday_5":"Cuma","weekday_6":"Cumartesi","weekday_7":"Pazar","promo_line":"Güzel davetiyeler, dakikalar içinde hazır. Kendinizinkini oluşturun.","nf_title":"Bu davetiye açılamadı","nf_body":"Bağlantı eksik olabilir ya da davetiye kaldırılmış olabilir. Sizi davet eden kişiden yeni bir bağlantı isteyin.","nf_nokey":"Bu bağlantıda davetiyeyi açan kısım eksik. Tekrar gönderilmesini isteyin.","nf_expired":"Bu davetiyenin süresi doldu.","nf_closed":"Bu etkinlik için yanıtlar kapandı."}},"symbols":{"wedding_rings":{"vb":"0 0 512 512","paths":[{"d":"M371.77,176.36l30.47,-30.47l-21.71,-25.26h-52.31l-21.71,25.26l30.47,30.47c-29.56,3.28 -57.66,14.86 -80.98,33.51c-23.32,-18.64 -51.42,-30.23 -80.98,-33.51l30.47,-30.47l-21.71,-25.26h-52.31l-21.71,25.26l30.47,30.47C61.47,185.05 0,251.99 0,333.02c0,86.91 70.71,157.63 157.63,157.63c35.83,0 70.51,-12.2 98.38,-34.47c27.86,22.27 62.54,34.47 98.38,34.47C441.29,490.65 512,419.94 512,333.02C512,251.99 450.53,185.05 371.77,176.36zM327.24,145.11l7.97,-9.27h38.34l7.97,9.27l-27.14,27.14L327.24,145.11zM130.49,145.11l7.97,-9.27h38.34l7.97,9.27l-27.14,27.14L130.49,145.11zM157.63,475.44c-78.53,0 -142.42,-63.89 -142.42,-142.42s63.89,-142.42 142.42,-142.42c34.34,0 67.5,12.39 93.39,34.89c8.03,6.98 15.31,14.9 21.62,23.52c17.93,24.51 27.41,53.56 27.41,84c0,27.57 -7.78,54 -22.56,76.95c-0.19,-0.19 -0.38,-0.39 -0.57,-0.58c-0.83,-0.85 -1.66,-1.7 -2.46,-2.57c-0.36,-0.39 -0.7,-0.78 -1.05,-1.17c-0.66,-0.74 -1.32,-1.48 -1.96,-2.23c-0.37,-0.43 -0.73,-0.87 -1.09,-1.31c-0.62,-0.75 -1.23,-1.51 -1.82,-2.28c-0.34,-0.43 -0.68,-0.86 -1,-1.3c-0.65,-0.87 -1.29,-1.75 -1.92,-2.64c-0.19,-0.28 -0.4,-0.55 -0.59,-0.82c10.89,-18.81 16.62,-40.15 16.62,-62.04c0,-21.92 -5.76,-43.3 -16.68,-62.14l0.06,-0.1l-2.58,-4.07c-4.98,-7.86 -10.82,-15.12 -17.41,-21.66c-2.2,-2.18 -4.48,-4.28 -6.84,-6.3l-6.23,-5.33l-0.16,0.22c-21.34,-15.93 -47.37,-24.62 -74.16,-24.62c-68.38,0 -124,55.63 -124,124s55.63,124 124,124c26.85,0 52.95,-8.73 74.32,-24.74c0.09,0.12 0.2,0.23 0.29,0.35c0.54,0.66 1.09,1.31 1.64,1.96c0.42,0.5 0.84,1.01 1.27,1.5c0.59,0.68 1.18,1.34 1.78,2.01c0.41,0.46 0.81,0.92 1.23,1.37c0.66,0.72 1.33,1.42 2,2.12c0.37,0.39 0.73,0.79 1.11,1.17c0.81,0.84 1.65,1.67 2.48,2.49c0.23,0.22 0.45,0.46 0.68,0.68C219.61,465.02 189.11,475.44 157.63,475.44zM289.08,246.04c18.77,-14.1 41.69,-21.81 65.3,-21.81c59.99,0 108.79,48.81 108.79,108.79c0,59.99 -48.81,108.79 -108.79,108.79c-23.61,0 -46.53,-7.72 -65.3,-21.81c17.14,-25.82 26.17,-55.74 26.17,-86.98C315.25,301.77 306.22,271.86 289.08,246.04zM256,379.49c-6.83,-14.45 -10.42,-30.28 -10.42,-46.47c0,-16.18 3.58,-32.01 10.42,-46.47c6.83,14.45 10.42,30.28 10.42,46.47C266.42,349.2 262.83,365.04 256,379.49zM222.92,246.04c-17.14,25.82 -26.17,55.74 -26.17,86.98c0,31.25 9.03,61.17 26.17,86.98c-18.77,14.1 -41.69,21.81 -65.3,21.81c-59.99,0 -108.79,-48.8 -108.79,-108.79S97.64,224.23 157.63,224.23C181.23,224.23 204.16,231.95 222.92,246.04zM354.38,475.44c-34.34,0 -67.5,-12.39 -93.39,-34.89c-8.03,-6.98 -15.31,-14.9 -21.62,-23.52c-17.93,-24.51 -27.41,-53.56 -27.41,-84c0,-27.57 7.78,-54 22.56,-76.95c0.19,0.19 0.38,0.39 0.57,0.59c0.83,0.85 1.66,1.7 2.46,2.57c0.35,0.38 0.7,0.78 1.05,1.17c0.66,0.74 1.32,1.49 1.96,2.24c0.36,0.43 0.72,0.86 1.08,1.3c0.62,0.76 1.23,1.52 1.84,2.29c0.33,0.43 0.67,0.86 1,1.29c0.65,0.87 1.29,1.75 1.92,2.63c0.2,0.28 0.4,0.55 0.59,0.83c-10.89,18.81 -16.62,40.15 -16.62,62.04c0,21.92 5.76,43.3 16.68,62.14l-0.06,0.1l2.58,4.07c6.64,10.48 14.8,19.89 24.25,27.97l6.23,5.33l0.16,-0.22c21.34,15.93 47.37,24.62 74.16,24.62c68.38,0 124,-55.63 124,-124s-55.63,-124 -124,-124c-26.85,0 -52.95,8.73 -74.32,24.74c-0.09,-0.12 -0.2,-0.23 -0.29,-0.35c-0.54,-0.66 -1.09,-1.31 -1.64,-1.96c-0.42,-0.5 -0.84,-1.01 -1.27,-1.51c-0.58,-0.67 -1.17,-1.33 -1.76,-1.99c-0.42,-0.46 -0.82,-0.94 -1.25,-1.39c-0.64,-0.7 -1.3,-1.39 -1.95,-2.08c-0.38,-0.41 -0.76,-0.82 -1.15,-1.22c-0.78,-0.81 -1.58,-1.59 -2.37,-2.38c-0.26,-0.26 -0.52,-0.52 -0.78,-0.78c24.8,-19.08 55.3,-29.49 86.79,-29.49c78.53,0 142.42,63.89 142.42,142.42C496.79,411.55 432.9,475.44 354.38,475.44z","fill":"currentColor"},{"d":"M248.4,21.35h15.21v47.34h-15.21z","fill":"currentColor"},{"d":"M301.81,78.12l19.87,-42.97l13.8,6.38l-19.87,42.97z","fill":"currentColor"},{"d":"M176.5,41.54l13.8,-6.38l19.87,42.97l-13.8,6.38z","fill":"currentColor"}]},"baptism_candle":{"vb":"0 0 512 512","paths":[{"d":"M256,26 C256,26 308,92 308,128 C308,157 285,178 256,178 C227,178 204,157 204,128 C204,92 256,26 256,26 Z","fill":"currentColor"},{"d":"M247,186 h18 v22 h-18 Z","fill":"currentColor"},{"d":"M196,224 C196,210 207,200 221,200 L291,200 C305,200 316,210 316,224 L316,482 L196,482 Z","fill":"currentColor"},{"d":"M196,286 C160,246 96,244 88,290 C80,336 152,340 196,322 Z","fill":"currentColor"},{"d":"M316,286 C352,246 416,244 424,290 C432,336 360,340 316,322 Z","fill":"currentColor"},{"d":"M226,304 a30,30 0 1,0 60,0 a30,30 0 1,0 -60,0 Z","fill":"currentColor"}]},"birthday_cake":{"vb":"0 0 512 512","paths":[{"d":"M176,40 C176,40 194,64 194,78 C194,89 186,97 176,97 C166,97 158,89 158,78 C158,64 176,40 176,40 Z","fill":"currentColor"},{"d":"M256,40 C256,40 274,64 274,78 C274,89 266,97 256,97 C246,97 238,89 238,78 C238,64 256,40 256,40 Z","fill":"currentColor"},{"d":"M336,40 C336,40 354,64 354,78 C354,89 346,97 336,97 C326,97 318,89 318,78 C318,64 336,40 336,40 Z","fill":"currentColor"},{"d":"M168,106 h16 v70 h-16 Z","fill":"currentColor"},{"d":"M248,106 h16 v70 h-16 Z","fill":"currentColor"},{"d":"M328,106 h16 v70 h-16 Z","fill":"currentColor"},{"d":"M120,200 C120,187 131,176 144,176 L368,176 C381,176 392,187 392,200 L392,276 L120,276 Z","fill":"currentColor"},{"d":"M64,308 C64,295 75,284 88,284 L424,284 C437,284 448,295 448,308 L448,396 L64,396 Z","fill":"currentColor"},{"d":"M36,414 L476,414 C476,432 462,446 444,446 L68,446 C50,446 36,432 36,414 Z","fill":"currentColor"}]},"promotion_laurel":{"vb":"0 0 512 512","paths":[{"d":"M172,86 C104,152 72,248 94,344 C112,422 172,466 256,482 L256,442 C188,428 142,392 128,330 C110,250 132,168 196,110 Z","fill":"currentColor"},{"d":"M340,86 C408,152 440,248 418,344 C400,422 340,466 256,482 L256,442 C324,428 370,392 384,330 C402,250 380,168 316,110 Z","fill":"currentColor"},{"d":"M230,52 a26,26 0 1,0 52,0 a26,26 0 1,0 -52,0 Z","fill":"currentColor"}]},"reunion_ribbon":{"vb":"0 0 512 512","paths":[{"d":"M206,300 L146,478 L216,442 L242,306 Z","fill":"currentColor"},{"d":"M306,300 L366,478 L296,442 L270,306 Z","fill":"currentColor"},{"d":"M138,158 a118,118 0 1,0 236,0 a118,118 0 1,0 -236,0 Z M194,158 a62,62 0 1,0 124,0 a62,62 0 1,0 -124,0 Z","fill":"currentColor"}]},"generic_heart":{"vb":"0 0 512 512","paths":[{"d":"M256,462 C256,462 44,344 44,198 C44,120 104,64 176,64 C218,64 243,86 256,110 C269,86 294,64 336,64 C408,64 468,120 468,198 C468,344 256,462 256,462 Z","fill":"currentColor"}]}}};
+const SUPABASE = {"url":"https://fslgmtitayjswydaalfl.supabase.co","anon":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzbGdtdGl0YXlqc3d5ZGFhbGZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2ODgyNDAsImV4cCI6MjEwMjI2NDI0MH0.GugcX_mO5Ezf33Bk_l5MaoDUjjjz5mYYOZ4GzW63BQE"};
+
+/* ── plumbing ─────────────────────────────────────────────────────────────── */
+
+const el = document.getElementById('app');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// The reader's language, not the host's: the same rule the app follows, so a Greek guest at a
+// German couple's wedding reads the chrome in Greek while the invitation stays as written.
+const LANG = (() => {
+  for (const l of (navigator.languages || [navigator.language || 'en'])) {
+    const short = String(l).toLowerCase().split('-')[0];
+    if (DATA.strings[short]) return short;
+  }
+  return 'en';
+})();
+const t = (k, ...a) => {
+  let s = (DATA.strings[LANG] || {})[k] ?? (DATA.strings.en || {})[k] ?? k;
+  a.forEach((v, i) => { s = s.split('%' + (i + 1) + '$s').join(v).split('%' + (i + 1) + '$d').join(v); });
+  return s;
+};
+
+// Photo rows carry storage paths, not URLs — the app builds the public URL through the
+// storage client, and this is the same address by hand.
+const photoUrl = path => path
+  ? SUPABASE.url + '/storage/v1/object/public/event-photos/' + path.split('/').map(encodeURIComponent).join('/')
+  : '';
+
+const rpc = async (fn, body) => {
+  const r = await fetch(SUPABASE.url + '/rest/v1/rpc/' + fn, {
+    method: 'POST',
+    headers: { apikey: SUPABASE.anon, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const j = await r.json().catch(() => null);
+  if (!r.ok) throw new Error((j && (j.message || j.code)) || ('HTTP ' + r.status));
+  return j;
+};
+
+// A guest has no account, so their own reply is found again by a per-browser id — the same idea
+// as the app's device id, and the only reason a reply can be edited later.
+const deviceId = (() => {
+  const K = 'ovation.device';
+  let v = null;
+  try { v = localStorage.getItem(K); } catch (e) {}
+  if (!v) {
+    v = (crypto.randomUUID ? crypto.randomUUID()
+        : 'web-' + Math.random().toString(36).slice(2) + Date.now().toString(36));
+    try { localStorage.setItem(K, v); } catch (e) {}
+  }
+  return v;
+})();
+
+const THEMES = {
+  classic_gold:{primary:'#846823',onPrimary:'#fff',primaryContainer:'#F3E4C0',onPrimaryContainer:'#3A2D06',secondary:'#6B3F5E',background:'#F6F0EA',surface:'#fff',onSurface:'#2B2230',onSurfaceVariant:'#6E665E'},
+  baptism_pastel:{primary:'#3B768C',onPrimary:'#fff',primaryContainer:'#D3E7EF',onPrimaryContainer:'#0C2C36',secondary:'#A8586C',background:'#F7F5F2',surface:'#fff',onSurface:'#2E3A40',onSurfaceVariant:'#55646A'},
+  birthday_vivid:{primary:'#B04A2E',onPrimary:'#fff',primaryContainer:'#F7DDD3',onPrimaryContainer:'#3C140A',secondary:'#2C7266',background:'#FDF6F0',surface:'#fff',onSurface:'#31292A',onSurfaceVariant:'#6E625E'},
+  sage_garden:{primary:'#4F6647',onPrimary:'#fff',primaryContainer:'#DCE7D3',onPrimaryContainer:'#16240F',secondary:'#8A6F4B',background:'#F4F6EF',surface:'#fff',onSurface:'#232823',onSurfaceVariant:'#5C6656'},
+  midnight_navy:{primary:'#2E4266',onPrimary:'#fff',primaryContainer:'#D8E2F6',onPrimaryContainer:'#0D1B33',secondary:'#7A6A45',background:'#F2F4F8',surface:'#fff',onSurface:'#1F2430',onSurfaceVariant:'#5F6673'},
+};
+const applyTheme = id => {
+  const p = THEMES[id] || THEMES.classic_gold;
+  const r = document.documentElement.style;
+  r.setProperty('--primary', p.primary); r.setProperty('--on-primary', p.onPrimary);
+  r.setProperty('--primary-container', p.primaryContainer);
+  r.setProperty('--on-primary-container', p.onPrimaryContainer);
+  r.setProperty('--secondary', p.secondary); r.setProperty('--background', p.background);
+  r.setProperty('--surface', p.surface); r.setProperty('--on-surface', p.onSurface);
+  r.setProperty('--on-surface-variant', p.onSurfaceVariant);
+  const m = document.querySelector('meta[name=theme-color]') || (() => {
+    const x = document.createElement('meta'); x.name = 'theme-color';
+    document.head.appendChild(x); return x;
+  })();
+  m.content = p.background;
+};
+
+const SYMBOL_FOR = { WEDDING:'wedding_rings', BAPTISM:'baptism_candle', WEDDING_BAPTISM:'wedding_rings',
+  BIRTHDAY:'birthday_cake', PROMOTION:'promotion_laurel', REUNION:'reunion_ribbon', OTHER:'generic_heart' };
+const SYMBOL_BY_NAME = { RINGS:'wedding_rings', CANDLE:'baptism_candle', CAKE:'birthday_cake',
+  LAUREL:'promotion_laurel', RIBBON:'reunion_ribbon', HEART:'generic_heart' };
+
+const symbolSvg = (name, cls) => {
+  const s = DATA.symbols[name] || DATA.symbols.generic_heart;
+  const paths = s.paths.map(p =>
+    `<path d="${p.d}" fill="${p.fill}"` +
+    (p.stroke ? ` stroke="${p.stroke}" stroke-width="${p.w || 1}"` +
+      (p.cap ? ` stroke-linecap="${p.cap}" stroke-linejoin="round"` : '') : '') + `/>`).join('');
+  return `<svg class="${cls || ''}" viewBox="${s.vb}" fill="none" aria-hidden="true">${paths}</svg>`;
+};
+
+const MARK = `<svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+  <circle cx="50" cy="50" r="34" stroke="currentColor" stroke-width="1.5" opacity=".55"/>
+  <circle cx="52" cy="52" r="28" stroke="currentColor" stroke-width="1.5" opacity=".9"/>
+  <path d="M50 44l1.6 4.4L56 50l-4.4 1.6L50 56l-1.6-4.4L44 50l4.4-1.6z" fill="currentColor"/>
+  <circle cx="43" cy="57" r="1.9" fill="currentColor" opacity=".85"/>
+  <circle cx="58" cy="45" r="1.5" fill="currentColor" opacity=".7"/></svg>`;
+
+const ICON = {
+  invitation:'<path d="M3 6h18v12H3z" stroke="currentColor" stroke-width="1.7"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.7"/>',
+  schedule:'<rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 3v4M16 3v4M3 10h18" stroke="currentColor" stroke-width="1.7"/>',
+  people:'<circle cx="9" cy="8" r="3.2" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="9" r="2.6" stroke="currentColor" stroke-width="1.7"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5M16 14c2.7 0 5 1.8 5 4.4" stroke="currentColor" stroke-width="1.7"/>',
+  story:'<path d="M4 5h7a2 2 0 012 2v13a2 2 0 00-2-2H4zM20 5h-7a2 2 0 00-2 2v13a2 2 0 012-2h7z" stroke="currentColor" stroke-width="1.7"/>',
+  gift:'<rect x="3" y="9" width="18" height="12" rx="1.6" stroke="currentColor" stroke-width="1.7"/><path d="M3 13h18M12 9v12M12 9c-2 0-4-1-4-3s3-1 4 3c1-4 4-5 4-3s-2 3-4 3z" stroke="currentColor" stroke-width="1.7"/>',
+  photos:'<rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><circle cx="9" cy="10" r="1.7" stroke="currentColor" stroke-width="1.7"/><path d="M4 17l5-4 4 3 3-2 4 3" stroke="currentColor" stroke-width="1.7"/>',
+  guestbook:'<path d="M4 19V5a2 2 0 012-2h11l3 3v13a2 2 0 01-2 2H6a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.7"/><path d="M8 9h8M8 13h6" stroke="currentColor" stroke-width="1.7"/>',
+  contact:'<path d="M5 4h4l2 5-2.5 1.5a12 12 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke="currentColor" stroke-width="1.7"/>',
+  check:'<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M8 12.5l2.6 2.6L16 9.5" stroke="currentColor" stroke-width="1.9"/>',
+};
+const h2 = (icon, label) =>
+  `<h2><svg class="ic" viewBox="0 0 24 24" fill="none">${ICON[icon]}</svg>${esc(label)}</h2><div class="h2rule"></div>`;
+
+/* ── dates ────────────────────────────────────────────────────────────────── */
+
+const parseDT = s => {
+  if (!s) return null;
+  const m = String(s).match(/(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/);
+  if (!m) return null;
+  return new Date(+m[1], +m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0));
+};
+const longDate = d => t('date_long', d.getDate(), t('month_' + (d.getMonth() + 1)), d.getFullYear());
+const weekday = d => t('weekday_' + (((d.getDay() + 6) % 7) + 1));
+const hhmm = d => String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+
+/* ── invitation text ──────────────────────────────────────────────────────── */
+
+// Same contract as the app's renderInvitationCopy: {date}/{venue}/{venueArticle}, and a [[…]]
+// block that is dropped whole when there is no venue — which is what keeps the sentence
+// grammatical in Greek instead of trailing "στο ."
+function renderCopy(template, dateText, venue) {
+  const resolved = String(template).replace(/\[\[([\s\S]*?)\]\]/g, (_, inner) => venue ? inner : '');
+  let out = '';
+  const re = /\{(date|venue|venueArticle)\}/g;
+  let last = 0, m;
+  while ((m = re.exec(resolved))) {
+    out += esc(resolved.slice(last, m.index));
+    if (m[1] === 'date') out += esc(dateText);
+    else if (m[1] === 'venueArticle') out += esc((venue && venue.articleAccusative) || 'ο');
+    else if (venue) {
+      const maps = venue.mapsUrl || venue.maps_url ||
+        (venue.latitude != null && venue.longitude != null
+          ? 'https://www.google.com/maps/search/?api=1&query=' + venue.latitude + ',' + venue.longitude
+          : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(venue.name || ''));
+      out += `<a class="venue" href="${esc(maps)}" target="_blank" rel="noopener">${esc(venue.name)}</a>`;
+    }
+    last = re.lastIndex;
+  }
+  return out + esc(resolved.slice(last));
+}
+
+const venueLink = loc => {
+  if (!loc) return '';
+  const maps = loc.mapsUrl || loc.maps_url ||
+    (loc.latitude != null && loc.longitude != null
+      ? 'https://www.google.com/maps/search/?api=1&query=' + loc.latitude + ',' + loc.longitude
+      : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(
+          [loc.name, loc.address].filter(Boolean).join(' ')));
+  return `<a class="venue" href="${esc(maps)}" target="_blank" rel="noopener">${esc(loc.name)}</a>`;
+};
+
+/* ── people ───────────────────────────────────────────────────────────────── */
+
+const ROLE_KEY = {
+  WEDDING:{HONOREE:'role_couple',PARENT:'role_parents',GODPARENT:'role_godparents',BEST_MAN:'role_best_man',MAID_OF_HONOR:'role_maid_of_honor',SIBLING:'role_siblings',HOST:'role_host'},
+  BAPTISM:{HONOREE:'role_child',PARENT:'role_parents',GODPARENT:'role_godparents',SIBLING:'role_siblings',HOST:'role_host'},
+  WEDDING_BAPTISM:{HONOREE:'role_couple',PARENT:'role_parents',GODPARENT:'caption_both_sponsors',BEST_MAN:'role_best_man',MAID_OF_HONOR:'role_maid_of_honor',SIBLING:'role_siblings',HOST:'role_host'},
+  DEFAULT:{HONOREE:'role_celebrant',PARENT:'role_parents',SIBLING:'role_siblings',HOST:'role_host'},
+};
+const roleLabel = (type, p) => {
+  if (p.roleLabel) return p.roleLabel;
+  const map = ROLE_KEY[type] || ROLE_KEY.DEFAULT;
+  const k = map[p.roleKind];
+  return k ? t(k) : '';
+};
+const initials = n => {
+  const w = String(n || '').trim().split(/\s+/).filter(Boolean);
+  return (w.length === 0 ? '' : w.length === 1 ? w[0][0] : w[0][0] + w[w.length - 1][0]).toUpperCase();
+};
+
+const avatar = p => p.photoUrl
+  ? `<div class="av"><img src="${esc(p.photoUrl)}" alt="" loading="lazy"></div>`
+  : `<div class="av">${esc(initials(p.name))}</div>`;
+
+/* ── segments per type, for the reply form ────────────────────────────────── */
+
+const SEGMENTS = {
+  WEDDING:[['ceremony','segment_ceremony'],['reception','segment_reception']],
+  BAPTISM:[['ceremony','segment_baptism_ceremony'],['reception','segment_reception']],
+  WEDDING_BAPTISM:[['wedding','segment_wedding'],['baptism','segment_baptism'],['reception','segment_reception']],
+  BIRTHDAY:[['party','segment_party']],
+  PROMOTION:[['party','segment_coming']],
+  REUNION:[['party','segment_coming']],
+  OTHER:[['party','segment_coming']],
+};
+
+/* ── page ─────────────────────────────────────────────────────────────────── */
+
+const STORE_IOS = 'https://apps.apple.com/app/id6801901969';
+const STORE_PLAY = 'https://play.google.com/store/apps/details?id=org.applicious.ovation';
+
+const promoCard = () => `
+  <div class="promo">
+    ${MARK}
+    <h3>Ovation</h3>
+    <p>${esc(t('promo_line'))}</p>
+    <div class="stores">
+      <a href="${STORE_IOS}">App Store</a>
+      <a href="${STORE_PLAY}">Google Play</a>
+    </div>
+  </div>
+  <div class="foot"><a href="/">ovationapp.ch</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></div>`;
+
+function notFound(msg) {
+  applyTheme('classic_gold');
+  el.innerHTML = `<div class="wrap"><div class="card center" style="margin-top:40px">
+    <div style="color:var(--primary);margin-bottom:10px">${MARK}</div>
+    <h1 style="font-size:22px">${esc(t('nf_title'))}</h1>
+    <p class="muted" style="margin-top:8px">${esc(msg || t('nf_body'))}</p>
+    <a class="btn" style="margin-top:18px" href="/">ovationapp.ch</a>
+  </div>${promoCard()}</div>`;
+}
+
+let EV = null, SECRET = null, PARAM = 'k';
+
+async function main() {
+  const m = location.pathname.match(/^\/e\/([^/?#]+)/);
+  if (!m) return notFound();
+  const slug = decodeURIComponent(m[1]);
+  const q = new URLSearchParams(location.search);
+  SECRET = q.get('k') || q.get('g');
+  PARAM = q.get('g') ? 'g' : 'k';
+  if (!SECRET) return notFound(t('nf_nokey'));
+
+  let ev;
+  try {
+    ev = await rpc('guest_event', { p_slug: slug, p_secret: SECRET });
+  } catch (e) {
+    const msg = String(e.message || '');
+    return notFound(/EXPIRED/i.test(msg) ? t('nf_expired')
+      : /UNAUTHORIZED|NOT_FOUND/i.test(msg) ? t('nf_body') : msg);
+  }
+  EV = ev;
+  applyTheme(ev.theme_id);
+  document.title = ev.title + ' · Ovation';
+  document.documentElement.lang = LANG;
+  render();
+  loadExtras();
+}
+
+function render() {
+  const ev = EV, c = ev.content || {};
+  const start = parseDT(ev.start_date);
+  const locs = c.locations || [];
+  const venue = locs[0] || null;
+  const people = c.people || [];
+  const miles = (c.milestones || []).slice().sort((a, b) =>
+    String(a.time || '').localeCompare(String(b.time || '')));
+  const symbol = SYMBOL_BY_NAME[c.symbol] || SYMBOL_FOR[ev.type] || 'generic_heart';
+  const enabled = ev.enabled_sections;
+  const on = id => !enabled || enabled.indexOf(id) >= 0;
+
+  const honorees = people.filter(p => p.roleKind === 'HONOREE');
+  const parents = people.filter(p => p.roleKind === 'PARENT');
+  const sponsors = people.filter(p =>
+    ['BEST_MAN','MAID_OF_HONOR','GODPARENT'].indexOf(p.roleKind) >= 0);
+
+  let html = '';
+
+  /* hero */
+  html += `<div class="cover">` + (ev.cover_photo_url
+    ? `<img src="${esc(ev.cover_photo_url)}" alt="">`
+    : `<div class="fallback">${symbolSvg(symbol)}</div>`) + `</div>`;
+
+  html += `<div class="wrap">`;
+
+  /* title + countdown */
+  html += `<div class="card headcard">
+      <h1>${esc(ev.title)}</h1>
+      <div class="when">${start ? esc(longDate(start)) : ''}</div>
+      <div class="rule"></div>
+      <div class="count" id="count"></div>
+    </div>`;
+
+  /* invitation */
+  if (on('INVITATION')) {
+    const names = honorees.map(p => p.name).filter(Boolean).join(' & ');
+    const body = ev.invitation_text
+      ? renderCopy(ev.invitation_text, start ? longDate(start) : '', venue)
+      : '';
+    html += `<div class="card inv">${h2('invitation', t('section_invitation'))}
+      ${names ? `<div class="names script">${esc(names)}</div>` : ''}
+      ${symbolSvg(symbol, 'sym')}
+      ${body ? `<div class="body">${body}</div>` : ''}
+      ${start ? `<div class="stamp">
+        <div class="wd">${esc(weekday(start))}</div>
+        <div class="dt">${esc(longDate(start))}</div>
+        <div class="hr">${esc(hhmm(start))}</div></div>` : ''}
+      ${parents.length ? `<div class="grp"><div class="cap">${esc(t('caption_families'))}</div>
+        <div class="who">${parents.map(p => esc(p.name)).join('<br>')}</div></div>` : ''}
+      ${sponsors.length ? `<div class="grp"><div class="cap">${esc(
+          ev.type === 'BAPTISM' ? t('caption_godparents')
+          : ev.type === 'WEDDING_BAPTISM' ? t('caption_both_sponsors') : t('caption_koumbaroi'))}</div>
+        <div class="who">${sponsors.map(p => esc(p.name)).join('<br>')}</div></div>` : ''}
+    </div>`;
+  }
+
+  /* schedule */
+  if (on('SCHEDULE') && miles.length) {
+    html += `<div class="card">${h2('schedule', t('section_schedule'))}` +
+      miles.map(mi => {
+        const d = parseDT(mi.time);
+        const loc = mi.location || null;
+        return `<div class="mile"><div class="dot"></div><div>
+          <div class="t">${esc(mi.title)}</div>
+          <div class="sub">${d ? esc(hhmm(d)) : ''}${loc ? ' · ' + venueLink(loc) : ''}</div>
+          ${mi.description ? `<div class="sub">${esc(mi.description)}</div>` : ''}
+        </div></div>`;
+      }).join('') + `</div>`;
+  } else if (on('SCHEDULE') && venue) {
+    html += `<div class="card">${h2('schedule', t('section_schedule'))}
+      <div class="mile"><div class="dot"></div><div>
+        <div class="t">${venueLink(venue)}</div>
+        ${venue.address ? `<div class="sub">${esc(venue.address)}</div>` : ''}
+      </div></div></div>`;
+  }
+
+  /* people */
+  if (on('PEOPLE') && people.length) {
+    html += `<div class="card">${h2('people', t('section_people'))}<div class="pgrid">` +
+      people.map(p => `<div class="person">${avatar(p)}
+        <div class="nm">${esc(p.name)}</div>
+        <div class="rl">${esc(roleLabel(ev.type, p))}</div></div>`).join('') +
+      `</div></div>`;
+  }
+
+  /* our story */
+  const story = c.story_moments || [];
+  if (on('STORY') && story.length) {
+    html += `<div class="card">${h2('story', t('section_story'))}` +
+      story.map(s => `<div class="mile"><div class="dot"></div><div>
+        <div class="t">${esc(s.title)}</div>
+        ${s.date ? `<div class="sub">${esc(longDate(parseDT(s.date) || new Date(s.date)))}</div>` : ''}
+        ${s.description ? `<div class="sub">${esc(s.description)}</div>` : ''}
+      </div></div>`).join('') + `</div>`;
+  }
+
+  /* gift registry */
+  const gift = c.gift_registry;
+  if (on('GIFT_REGISTRY') && gift && (gift.iban || gift.message)) {
+    html += `<div class="card">${h2('gift', t('section_gift_registry'))}
+      ${gift.message ? `<p style="margin-bottom:10px">${esc(gift.message)}</p>` : ''}
+      ${gift.accountHolder ? `<div class="row"><span class="muted">${esc(t('gift_account_holder'))}</span>
+        <span>${esc(gift.accountHolder)}</span></div>` : ''}
+      ${gift.bankName ? `<div class="row"><span class="muted">${esc(t('gift_bank'))}</span>
+        <span>${esc(gift.bankName)}</span></div>` : ''}
+      ${gift.iban ? `<div class="row"><span class="mono">${esc(gift.iban)}</span>
+        <button class="btn ghost" style="width:auto;padding:8px 14px;font-size:13px"
+          onclick="copyIban(this,'${esc(gift.iban)}')">${esc(t('gift_copy_iban'))}</button></div>` : ''}
+    </div>`;
+  }
+
+  /* photos + guest book placeholders, filled by loadExtras */
+  if (on('PHOTOS')) html += `<div class="card" id="photos">${h2('photos', t('section_photos'))}
+    <p class="muted center">…</p></div>`;
+  if (on('GUESTBOOK')) html += `<div class="card" id="guestbook">${h2('guestbook', t('section_guestbook'))}
+    <p class="muted center">…</p></div>`;
+
+  /* contact */
+  const phones = c.contact_phones || [];
+  if (on('CONTACT') && phones.length) {
+    html += `<div class="card">${h2('contact', t('section_contact'))}` +
+      phones.map(p => `<div class="row"><span>${esc(p.name)}</span>
+        <a href="tel:${esc(String(p.phone).replace(/\s+/g,''))}">${esc(p.phone)}</a></div>`).join('') +
+      `</div>`;
+  }
+
+  /* reply */
+  html += `<div class="card" id="rsvp"></div>`;
+  html += promoCard();
+  html += `</div>`;
+
+  /* sticky */
+  const deadline = parseDT(ev.rsvp_deadline);
+  html += `<div class="sticky" id="sticky"><div class="inner">
+      <button class="btn" onclick="jumpToRsvp()">${esc(t('rsvp_declare'))}</button>
+      ${deadline ? `<div class="deadline">${esc(t('rsvp_deadline_label'))}: ${esc(longDate(deadline))}</div>` : ''}
+    </div></div>`;
+
+  el.innerHTML = html;
+  startCountdown(start);
+  renderRsvp();
+}
+
+/* countdown */
+let timer = null;
+function startCountdown(start) {
+  const box = document.getElementById('count');
+  if (!box || !start) { if (box) box.remove(); return; }
+  const tick = () => {
+    let ms = start.getTime() - Date.now();
+    if (ms <= 0) { box.innerHTML = `<div class="muted">${esc(t('countdown_started'))}</div>`;
+                   clearInterval(timer); return; }
+    const s = Math.floor(ms / 1000), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600),
+          mi = Math.floor(s % 3600 / 60), se = s % 60;
+    box.innerHTML = [[d, 'countdown_days'], [h, 'countdown_hours'], [mi, 'countdown_minutes'],
+                     [se, 'countdown_seconds']]
+      .map(([v, k]) => `<div><b>${v}</b><span>${esc(t(k))}</span></div>`).join('');
+  };
+  tick(); timer = setInterval(tick, 1000);
+}
+
+function jumpToRsvp() {
+  const n = document.getElementById('rsvp');
+  if (n) n.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyIban(btn, iban) {
+  navigator.clipboard && navigator.clipboard.writeText(iban);
+  const old = btn.textContent; btn.textContent = '✓';
+  setTimeout(() => { btn.textContent = old; }, 1400);
+}
+
+/* ── photos & guest book ──────────────────────────────────────────────────── */
+
+async function loadExtras() {
+  const box = document.getElementById('photos');
+  if (box) {
+    try {
+      const photos = await rpc('guest_photos', { p_event: EV.id, p_secret: SECRET });
+      box.innerHTML = h2('photos', t('section_photos')) + (photos.length
+        ? `<div class="pg">` + photos.map(p =>
+            `<img loading="lazy" src="${esc(photoUrl(p.thumbnail_path || p.storage_path))}" alt=""
+                  onclick="lightbox('${esc(photoUrl(p.storage_path))}')">`).join('') + `</div>`
+        : `<p class="muted center">${esc(t('photos_empty'))}</p>`);
+    } catch (e) { box.remove(); }
+  }
+  const gb = document.getElementById('guestbook');
+  if (gb) {
+    try {
+      const wishes = await rpc('guest_guestbook', { p_event: EV.id, p_secret: SECRET });
+      renderGuestbook(wishes);
+    } catch (e) { gb.remove(); }
+  }
+  try {
+    const mine = await rpc('guest_my_rsvp', { p_event: EV.id, p_secret: SECRET, p_device: deviceId });
+    if (mine && mine.id) renderRsvp(mine);
+  } catch (e) {}
+}
+
+function renderGuestbook(wishes) {
+  const gb = document.getElementById('guestbook');
+  if (!gb) return;
+  gb.innerHTML = h2('guestbook', t('section_guestbook')) +
+    (wishes.length ? wishes.map(w => `<div class="wish">
+        <div class="who">${esc(w.name)}</div>
+        <div class="msg">${esc(w.message)}</div></div>`).join('')
+      : `<p class="muted center">${esc(t('guestbook_empty'))} — ${esc(t('guestbook_be_first'))}</p>`) +
+    `<div id="wishform">
+       <button class="btn ghost" style="margin-top:12px" onclick="openWish()">${esc(t('guestbook_add'))}</button>
+     </div>`;
+}
+
+function openWish() {
+  document.getElementById('wishform').innerHTML = `
+    <label>${esc(t('guestbook_your_name'))}</label><input id="wn" autocomplete="name">
+    <label>${esc(t('guestbook_your_message'))}</label><textarea id="wm"></textarea>
+    <button class="btn" style="margin-top:14px" onclick="sendWish(this)">${esc(t('guestbook_add'))}</button>
+    <div class="err hidden" id="werr"></div>`;
+}
+
+async function sendWish(btn) {
+  const name = document.getElementById('wn').value.trim();
+  const msg = document.getElementById('wm').value.trim();
+  const err = document.getElementById('werr');
+  if (!name || !msg) { err.textContent = '—'; err.classList.remove('hidden'); return; }
+  btn.disabled = true;
+  try {
+    await rpc('guest_submit_guestbook',
+      { p_event: EV.id, p_secret: SECRET, p_device: deviceId, p_name: name, p_message: msg });
+    const wishes = await rpc('guest_guestbook', { p_event: EV.id, p_secret: SECRET });
+    renderGuestbook(wishes);
+  } catch (e) {
+    btn.disabled = false; err.textContent = e.message; err.classList.remove('hidden');
+  }
+}
+
+function lightbox(url) {
+  const d = document.createElement('div');
+  d.className = 'lb'; d.innerHTML = `<img src="${esc(url)}" alt="">`;
+  d.onclick = () => d.remove();
+  document.body.appendChild(d);
+}
+
+/* ── reply ────────────────────────────────────────────────────────────────── */
+
+let RSVP = { attending: null, segments: [], adults: 1, children: 0 };
+
+function renderRsvp(existing) {
+  const box = document.getElementById('rsvp');
+  if (!box) return;
+  if (existing) {
+    RSVP.attending = existing.attendance === 'ATTENDING';
+    RSVP.segments = existing.attending_segments || [];
+    RSVP.adults = existing.num_adults ?? 1;
+    RSVP.children = existing.num_children ?? 0;
+  }
+  const segs = SEGMENTS[EV.type] || SEGMENTS.OTHER;
+  const one = segs.length <= 1;
+  box.innerHTML = `${h2('check', t('rsvp_form_title'))}
+    ${existing ? `<p class="ok" style="margin:-6px 0 12px">${esc(t('rsvp_can_change'))}</p>` : ''}
+    <div class="muted" style="font-size:14px">${esc(t('rsvp_title'))}</div>
+    <div class="choice">
+      <button type="button" aria-pressed="${RSVP.attending === true}" onclick="setAttend(true)">${esc(t('segment_coming'))}</button>
+      <button type="button" aria-pressed="${RSVP.attending === false}" onclick="setAttend(false)">${esc(t('rsvp_declined'))}</button>
+    </div>
+    <label for="rn">${esc(t('rsvp_name_required'))}</label>
+    <input id="rn" autocomplete="name" value="${esc(existing ? existing.name : '')}">
+    <label for="re">${esc(t('rsvp_email'))}</label>
+    <input id="re" type="email" autocomplete="email" value="${esc(existing && existing.email || '')}">
+    <label for="rp">${esc(t('rsvp_phone'))}</label>
+    <input id="rp" type="tel" autocomplete="tel" value="${esc(existing && existing.phone || '')}">
+    <div id="attonly" class="${RSVP.attending ? '' : 'hidden'}">
+      ${one ? '' : segs.map(([id, key]) => `<label class="check">
+          <input type="checkbox" ${RSVP.segments.indexOf(id) >= 0 ? 'checked' : ''}
+                 onchange="toggleSeg('${id}',this.checked)"> ${esc(t(key))}</label>`).join('')}
+      <div class="step"><span>${esc(t('rsvp_adults_count'))}</span><span class="pm">
+        <button type="button" onclick="bump('adults',-1)">−</button>
+        <b id="ad">${RSVP.adults}</b>
+        <button type="button" onclick="bump('adults',1)">+</button></span></div>
+      <div class="step"><span>${esc(t('rsvp_children_count'))}</span><span class="pm">
+        <button type="button" onclick="bump('children',-1)">−</button>
+        <b id="ch">${RSVP.children}</b>
+        <button type="button" onclick="bump('children',1)">+</button></span></div>
+    </div>
+    <label for="rm">${esc(t('rsvp_message'))}</label>
+    <textarea id="rm">${esc(existing && existing.message || '')}</textarea>
+    <label class="check"><input type="checkbox" id="rt" ${existing ? 'checked' : ''}>
+      <span>${esc(t('rsvp_terms_prefix'))}<a href="#" onclick="showTerms(event)">${esc(t('rsvp_terms_word'))}</a></span></label>
+    <button class="btn" style="margin-top:16px" onclick="sendRsvp(this)">${esc(t('rsvp_declare'))}</button>
+    <div class="err hidden" id="rerr"></div>`;
+}
+
+function setAttend(v) {
+  RSVP.attending = v;
+  document.querySelectorAll('#rsvp .choice button').forEach((b, i) =>
+    b.setAttribute('aria-pressed', String(i === 0 ? v : !v)));
+  document.getElementById('attonly').classList.toggle('hidden', !v);
+}
+function toggleSeg(id, on) {
+  RSVP.segments = on ? RSVP.segments.concat([id]) : RSVP.segments.filter(s => s !== id);
+}
+function bump(which, by) {
+  const min = which === 'adults' ? 1 : 0;
+  RSVP[which] = Math.max(min, RSVP[which] + by);
+  document.getElementById(which === 'adults' ? 'ad' : 'ch').textContent = RSVP[which];
+}
+function showTerms(e) {
+  e.preventDefault();
+  alert(t('rsvp_terms_title') + '\n\n' + t('rsvp_terms_body'));
+}
+
+async function sendRsvp(btn) {
+  const err = document.getElementById('rerr');
+  err.classList.add('hidden');
+  const name = document.getElementById('rn').value.trim();
+  if (RSVP.attending === null) { err.textContent = t('rsvp_pick_attendance'); err.classList.remove('hidden'); return; }
+  if (!name) { document.getElementById('rn').focus(); return; }
+  const segs = (SEGMENTS[EV.type] || SEGMENTS.OTHER);
+  btn.disabled = true;
+  try {
+    await rpc('guest_submit_rsvp', {
+      p_event: EV.id, p_secret: SECRET, p_device: deviceId,
+      p_rsvp: {
+        name,
+        email: document.getElementById('re').value.trim() || null,
+        phone: document.getElementById('rp').value.trim() || null,
+        attendance: RSVP.attending ? 'ATTENDING' : 'DECLINED',
+        attending_segments: RSVP.attending
+          ? (segs.length <= 1 ? [segs[0][0]] : RSVP.segments) : [],
+        num_adults: RSVP.attending ? RSVP.adults : 0,
+        num_children: RSVP.attending ? RSVP.children : 0,
+        message: document.getElementById('rm').value.trim() || null,
+        terms_accepted: document.getElementById('rt').checked,
+      },
+    });
+    document.getElementById('rsvp').innerHTML = `${h2('check', t('rsvp_form_title'))}
+      <p class="ok center" style="font-size:16px">${esc(
+        RSVP.attending ? t('rsvp_thanks_attending') : t('rsvp_thanks_missed'))}</p>
+      <p class="muted center" style="font-size:14px;margin-top:6px">${esc(t('rsvp_can_change'))}</p>
+      <button class="btn ghost" style="margin-top:14px" onclick="renderRsvp()">${esc(t('rsvp_cta_edit'))}</button>`;
+    const st = document.getElementById('sticky'); if (st) st.remove();
+    window.scrollTo({ top: document.getElementById('rsvp').offsetTop - 60, behavior: 'smooth' });
+  } catch (e) {
+    btn.disabled = false;
+    err.textContent = /RSVP_CLOSED/.test(e.message) ? t('nf_closed') : e.message;
+    err.classList.remove('hidden');
+  }
+}
+
+main();
+</script>
+</body>
+</html>
