@@ -546,6 +546,7 @@ function render() {
   el.innerHTML = html;
   startCountdown(start);
   renderRsvp();
+  watchSticky();
 }
 
 /* countdown */
@@ -564,6 +565,17 @@ function startCountdown(start) {
       .map(([v, k]) => `<div><b>${v}</b><span>${esc(t(k))}</span></div>`).join('');
   };
   tick(); timer = setInterval(tick, 1000);
+}
+
+// The sticky button and the form's own submit are the same button; showing both at once reads
+// as two different actions. The sticky one steps aside once the form is on screen.
+function watchSticky() {
+  const st = document.getElementById('sticky'), form = document.getElementById('rsvp');
+  if (!st || !form || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(
+    entries => entries.forEach(e => st.classList.toggle('hidden', e.isIntersecting)),
+    { threshold: 0.12 },
+  ).observe(form);
 }
 
 function jumpToRsvp() {
