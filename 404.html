@@ -470,6 +470,10 @@ function render() {
   const symbol = SYMBOL_BY_NAME[c.symbol] || SYMBOL_FOR[ev.type] || 'generic_heart';
   const enabled = ev.enabled_sections;
   const on = id => !enabled || enabled.indexOf(id) >= 0;
+  /* Blocks of the invitation the creator switched off. Absent means all of them, which is
+     what every event created before the switches existed looks like. */
+  const hiddenParts = c.hidden_invitation_parts || [];
+  const part = id => hiddenParts.indexOf(id) < 0;
 
   const honorees = people.filter(p => p.roleKind === 'HONOREE');
   const parents = people.filter(p => p.roleKind === 'PARENT');
@@ -502,18 +506,22 @@ function render() {
       : '';
     html += `<div class="card inv">${h2('invitation', t('section_invitation'))}
       ${names ? `<div class="names script">${esc(names)}</div>` : ''}
-      ${symbolSvg(symbol, 'sym')}
-      ${body ? `<div class="body">${body}</div>` : ''}
-      ${start ? `<div class="stamp">
+      ${part('EMBLEM') ? symbolSvg(symbol, 'sym') : ''}
+      ${body && part('WORDS') ? `<div class="body">${body}</div>` : ''}
+      ${start && part('DATE') ? `<div class="stamp">
         <div class="wd">${esc(weekday(start))}</div>
         <div class="dt">${esc(longDate(start))}</div>
         <div class="hr">${esc(hhmm(start))}</div></div>` : ''}
-      ${parents.length ? `<div class="grp"><div class="cap">${esc(t('caption_families'))}</div>
-        <div class="who">${parents.map(p => esc(p.name)).join('<br>')}</div></div>` : ''}
-      ${sponsors.length ? `<div class="grp"><div class="cap">${esc(
-          ev.type === 'BAPTISM' ? t('caption_godparents')
-          : ev.type === 'WEDDING_BAPTISM' ? t('caption_both_sponsors') : t('caption_koumbaroi'))}</div>
-        <div class="who">${sponsors.map(p => esc(p.name)).join('<br>')}</div></div>` : ''}
+      ${(parents.length || c.families_text) && part('FAMILIES') ? `<div class="grp"><div class="cap">${esc(
+          c.families_label || t('caption_families'))}</div>
+        <div class="who">${(c.families_text ? c.families_text.split('\n')
+          : parents.map(p => p.name)).map(esc).join('<br>')}</div></div>` : ''}
+      ${(sponsors.length || c.supporters_text) && part('SUPPORTERS') ? `<div class="grp"><div class="cap">${esc(
+          c.supporters_label
+          || (ev.type === 'BAPTISM' ? t('caption_godparents')
+              : ev.type === 'WEDDING_BAPTISM' ? t('caption_both_sponsors') : t('caption_koumbaroi')))}</div>
+        <div class="who">${(c.supporters_text ? c.supporters_text.split('\n')
+          : sponsors.map(p => p.name)).map(esc).join('<br>')}</div></div>` : ''}
     </div>`;
   }
 
