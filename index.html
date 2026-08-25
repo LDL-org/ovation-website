@@ -106,7 +106,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .browser img { display: block; width: 100%; }
+        .browser img { display: block; width: 100%; height: auto; }
 
         .app-note {
             font-family: var(--sans);
@@ -261,8 +261,14 @@
                     <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
                     <span class="url">ovationapp.ch/e/anna-marco</span>
                 </div>
-                <img src="/assets/invitation.jpg" width="1600" height="721"
-                     alt="A wedding invitation for Anna and Marco open in a browser: a photograph of the ceremony arch, the words You are invited, and a card with the date and a countdown.">
+                <!-- Two crops, both of the same invitation as a guest sees it. The wide one is
+                     740px of it laid out for a tablet; on a phone that same crop would be a
+                     146px sliver, so narrow screens get the phone's own portrait view. -->
+                <picture>
+                    <source media="(max-width: 620px)" srcset="/assets/invitation-phone.jpg" width="1080" height="1570">
+                    <img src="/assets/invitation.jpg" width="1600" height="721"
+                         alt="A wedding invitation for Anna and Marco open in a browser: a photograph of the ceremony arch, the words You are invited, and a card with the date and a countdown.">
+                </picture>
             </div>
 
             <p class="app-note">The app is only for the person <em>making</em> the invitation.</p>
