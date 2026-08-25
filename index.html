@@ -3,110 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ovation — beautiful event invitations you send as one link. Weddings, baptisms, birthdays, reunions.">
     <title>Ovation — Beautiful invitations, ready in minutes</title>
+    <meta name="description" content="Ovation — beautiful event invitations you send as one link. Your guests open it in their browser and reply from there. Weddings, baptisms, birthdays, reunions.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ovationapp.ch/">
+    <meta property="og:title" content="Ovation — Beautiful invitations, ready in minutes">
+    <meta property="og:description" content="Your guest taps a link. No app to install, no account to make — the invitation opens in their browser and they reply from there.">
+    <meta property="og:image" content="https://ovationapp.ch/assets/invitation.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
+        /* The same face the invitation viewer wears — someone who follows a link and then comes
+           here should not feel they have changed sites. Tokens match 404.html. */
+        :root {
+            --ink: #1C1720;          /* the dark ground */
+            --ink-soft: #2A232D;
+            --plum: #2B2230;
+            --cream: #F6F0EA;
+            --gold: #d4af5e;         /* gold on dark */
+            --gold-deep: #846823;    /* gold on cream — the viewer's --primary */
+            --paper: #F0EAEA;
+            --muted: #6E665E;
+            --serif: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+            --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: var(--serif);
             line-height: 1.6;
-            color: #2b2230;
-            background: #f6f0ea;
+            color: var(--paper);
+            background: var(--ink);
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        .eyebrow {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+        }
 
         /* ── Hero ── */
-        header {
-            background: linear-gradient(135deg, #5a2434 0%, #2e1119 100%);
-            color: #f3e4c0;
-            padding: 80px 20px 90px;
-            text-align: center;
-        }
-        .mark { display: block; margin: 0 auto 28px; }
+        header { background: var(--ink); padding: 74px 0 64px; text-align: center; }
+        .mark { display: block; margin: 0 auto 18px; }
         .logo {
-            font-size: 56px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: #d4af5e;
-            margin-bottom: 8px;
+            font-family: "Great Vibes", var(--serif);
+            font-size: 46px;
+            color: var(--gold);
+            line-height: 1;
         }
-        .tagline { font-size: 24px; font-weight: 300; margin-bottom: 40px; }
-        .swiss-badge {
-            display: inline-block;
-            background: #d52b1e;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 16px;
+        header h1 {
+            font-size: 46px;
+            font-weight: 500;
+            margin: 26px auto 14px;
+            max-width: 20ch;
+            line-height: 1.22;
+            letter-spacing: -.01em;
         }
-        .cta {
-            display: inline-block;
-            margin-top: 40px;
-            background: #d4af5e;
-            color: #2e1119;
-            padding: 16px 44px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 18px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.3);
+        .lede {
+            font-family: var(--sans);
+            font-size: 17px;
+            color: rgba(240,234,234,.68);
+            margin: 0 auto 36px;
+            max-width: 54ch;
         }
-        .cta.soon { background: transparent; color: #f3e4c0; border: 2px solid #d4af5e; box-shadow: none; }
 
-        /* ── Features ── */
-        .features { background: white; padding: 70px 20px; }
-        .features h2 { text-align: center; font-size: 36px; color: #846823; margin-bottom: 50px; }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
+        /* The invitation as it actually arrives: in a browser, at a link. */
+        .browser {
+            max-width: 860px;
+            margin: 0 auto;
+            border: 1px solid rgba(212,175,94,.22);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 26px 70px rgba(0,0,0,.55);
         }
-        .feature {
-            text-align: center;
-            padding: 36px 28px;
-            background: #f6f0ea;
-            border-radius: 18px;
-            transition: transform 0.2s, box-shadow 0.2s;
+        .browser-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--ink-soft);
+            padding: 10px 14px;
         }
-        .feature:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(72,29,39,0.14); }
-        .feature-icon { font-size: 48px; margin-bottom: 18px; }
-        .feature h3 { font-size: 20px; margin-bottom: 10px; color: #481d27; }
-        .feature p { color: #6e665e; font-size: 16px; }
+        .dots { display: flex; gap: 6px; flex: none; }
+        .dots i { width: 10px; height: 10px; border-radius: 50%; background: #4a4048; }
+        .url {
+            flex: 1 1 auto;
+            background: var(--ink);
+            border-radius: 5px;
+            padding: 6px 12px;
+            font-family: var(--sans);
+            font-size: 13px;
+            color: #A79D94;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .browser img { display: block; width: 100%; }
+
+        .app-note {
+            font-family: var(--sans);
+            font-size: 14px;
+            color: rgba(240,234,234,.5);
+            margin: 30px 0 16px;
+        }
+
+        /* ── Store buttons ──
+           They are inert on purpose: neither store is public yet, and a live badge that lands on
+           a 404 is worse than one that says "soon". To switch them on, give each one an href and
+           swap `.is-soon` for `.is-live`, and change the small line to "Download on the" /
+           "Get it on". Nothing else moves. */
+        .stores { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .store {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            border-radius: 8px;
+            padding: 11px 22px;
+            text-decoration: none;
+            text-align: left;
+        }
+        .store.is-soon { border: 1px solid rgba(212,175,94,.35); color: var(--paper); opacity: .68; }
+        .store.is-live {
+            background: var(--paper);
+            color: var(--ink);
+            border: 1px solid transparent;
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+        .store.is-live:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,.35); }
+        .store svg { flex: none; }
+        .store .small {
+            display: block;
+            font-family: var(--sans);
+            font-size: 9.5px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: rgba(240,234,234,.6);
+            line-height: 1.3;
+        }
+        .store.is-live .small { color: var(--muted); }
+        .store .big { display: block; font-size: 17px; line-height: 1.15; }
+
+        /* ── Three steps ── */
+        .steps { background: var(--ink-soft); padding: 56px 0; }
+        .step-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px; }
+        .step .n { font-size: 34px; color: var(--gold); line-height: 1; }
+        .step h3 { font-size: 21px; font-weight: 600; margin: 8px 0 6px; }
+        .step p { font-family: var(--sans); font-size: 14px; color: rgba(240,234,234,.65); }
+
+        /* ── For the host ── */
+        .features { background: var(--cream); color: var(--plum); padding: 66px 0; }
+        .features .eyebrow { color: var(--gold-deep); text-align: center; }
+        .features h2 { text-align: center; font-size: 34px; font-weight: 500; margin: 10px 0 44px; }
+        .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 34px; }
+        .feature { border-top: 1px solid rgba(132,104,35,.3); padding-top: 16px; }
+        .feature svg { display: block; margin-bottom: 9px; }
+        .feature h3 { font-size: 20px; font-weight: 600; margin-bottom: 5px; }
+        .feature p { font-family: var(--sans); font-size: 14px; color: var(--muted); }
 
         /* ── Occasions ── */
-        .occasions { background: #481d27; color: #f3e4c0; padding: 70px 20px; text-align: center; }
-        .occasions h2 { font-size: 36px; color: #d4af5e; margin-bottom: 40px; }
-        .occasion-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+        .occasions { background: var(--plum); padding: 56px 0; text-align: center; }
+        .occasions h2 { font-size: 30px; font-weight: 500; color: var(--gold); margin-bottom: 26px; }
+        .occasion-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 11px; }
         .occasion {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(212,175,94,0.35);
+            font-family: var(--sans);
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(212,175,94,.35);
             border-radius: 30px;
-            padding: 12px 26px;
-            font-size: 18px;
+            padding: 9px 20px;
+            font-size: 14px;
+        }
+        .occasions .foot {
+            font-family: var(--sans);
+            font-size: 14px;
+            color: rgba(240,234,234,.55);
+            margin-top: 26px;
         }
 
         /* ── Languages ── */
-        .languages { background: white; padding: 60px 20px; text-align: center; }
-        .languages h2 { font-size: 30px; color: #846823; margin-bottom: 20px; }
-        .language-list { font-size: 18px; color: #6e665e; }
+        .languages { background: var(--cream); color: var(--plum); padding: 50px 0; text-align: center; }
+        .languages h2 { font-size: 26px; font-weight: 500; color: var(--gold-deep); margin-bottom: 12px; }
+        .languages p { font-family: var(--sans); font-size: 15px; color: var(--muted); }
+
+        /* ── Get the app ── */
+        .get-app { background: var(--ink-soft); padding: 52px 0; text-align: center; }
+        .get-app h2 { font-size: 28px; font-weight: 500; margin-bottom: 8px; }
+        .get-app p {
+            font-family: var(--sans);
+            font-size: 14px;
+            color: rgba(240,234,234,.6);
+            margin: 0 auto 26px;
+            max-width: 46ch;
+        }
 
         /* ── Footer ── */
-        footer { background: #2e1119; color: rgba(243,228,192,0.75); text-align: center; padding: 40px 20px; }
-        footer a { color: #d4af5e; text-decoration: none; margin: 0 15px; }
+        footer { background: var(--ink); color: rgba(240,234,234,.45); text-align: center; padding: 38px 0; }
+        .footer-links { font-family: var(--sans); font-size: 14px; margin-bottom: 16px; }
+        footer a { color: var(--gold); text-decoration: none; margin: 0 13px; }
         footer a:hover { text-decoration: underline; }
-        .footer-links { margin-bottom: 20px; }
+        footer p { font-family: var(--sans); font-size: 13px; }
 
-        @media (max-width: 768px) {
-            .logo { font-size: 40px; }
-            .tagline { font-size: 20px; }
-            .feature-grid { grid-template-columns: 1fr; }
+        @media (max-width: 860px) {
+            header { padding: 52px 0 48px; }
+            header h1 { font-size: 32px; margin-top: 20px; }
+            .logo { font-size: 36px; }
+            .lede { font-size: 15px; }
+            .step-grid, .feature-grid { grid-template-columns: 1fr; gap: 26px; }
+            .features h2, .occasions h2 { font-size: 27px; }
+            /* Side by side at phone width breaks both labels onto two lines. */
+            .stores { flex-direction: column; align-items: stretch; }
+            .store { justify-content: center; }
         }
+
         /* Shown only when Supabase has just sent someone here from a confirmation link. */
         #auth-notice {
             display: none;
+            font-family: var(--sans);
             background: #2f5d3a;
             color: #eaf6ec;
             text-align: center;
@@ -124,7 +243,7 @@
 
     <header>
         <div class="container">
-            <svg class="mark" width="96" height="96" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <svg class="mark" width="72" height="72" viewBox="0 0 100 100" fill="none" aria-hidden="true">
                 <circle cx="50" cy="50" r="34" stroke="#d4af5e" stroke-width="1.5" opacity=".55"/>
                 <circle cx="52" cy="52" r="28" stroke="#d4af5e" stroke-width="1.5" opacity=".9"/>
                 <path d="M50 44l1.6 4.4L56 50l-4.4 1.6L50 56l-1.6-4.4L44 50l4.4-1.6z" fill="#f3e4c0"/>
@@ -133,46 +252,95 @@
                 <circle cx="57" cy="58" r="1.2" fill="#f3e4c0" opacity=".6"/>
             </svg>
             <div class="logo">Ovation</div>
-            <div class="tagline">Beautiful invitations, ready in minutes.</div>
-            <div class="swiss-badge">🇨🇭 Made in Switzerland</div>
-            <br>
-            <span class="cta soon">Coming soon to the App Store &amp; Google Play</span>
+
+            <h1>Your guest taps a link. That is the whole thing.</h1>
+            <p class="lede">No app to install, no account to make. The invitation opens in their browser — and they reply from there.</p>
+
+            <div class="browser">
+                <div class="browser-bar">
+                    <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span class="url">ovationapp.ch/e/anna-marco</span>
+                </div>
+                <img src="/assets/invitation.jpg" width="1600" height="721"
+                     alt="A wedding invitation for Anna and Marco open in a browser: a photograph of the ceremony arch, the words You are invited, and a card with the date and a countdown.">
+            </div>
+
+            <p class="app-note">The app is only for the person <em>making</em> the invitation.</p>
+
+            <div class="stores">
+                <span class="store is-soon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M16.2 12.7c0-2 1.6-3 1.7-3.1-1-1.4-2.4-1.6-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 8 .7 1 1.5 2 2.5 2 1 0 1.4-.6 2.6-.6s1.5.6 2.6.6c1.1 0 1.8-1 2.4-2 .8-1.1 1.1-2.2 1.1-2.3 0 0-2.2-.8-2.2-3z"/>
+                        <path d="M14.3 6.6c.5-.7.9-1.6.8-2.6-.8 0-1.8.5-2.4 1.2-.5.6-.9 1.5-.8 2.5.9.1 1.8-.4 2.4-1.1z"/>
+                    </svg>
+                    <span><span class="small">Soon on</span><span class="big">App Store</span></span>
+                </span>
+                <span class="store is-soon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 2.7v18.6c0 .5.5.8.9.6l10.3-6-2.6-2.6L4 2.7z" fill="currentColor" opacity=".82"/>
+                        <path d="M4 2.7l8.6 10.6 2.6-2.6L4.9 2.1c-.4-.2-.9.1-.9.6z" fill="currentColor" opacity=".55"/>
+                        <path d="M18.9 10.6l-3.7-2.2-2.6 2.7 2.6 2.6 3.7-2.1c.5-.3.5-.7 0-1z" fill="#d4af5e"/>
+                    </svg>
+                    <span><span class="small">Soon on</span><span class="big">Google Play</span></span>
+                </span>
+            </div>
         </div>
     </header>
 
+    <section class="steps">
+        <div class="container step-grid">
+            <div class="step">
+                <div class="n">1</div>
+                <h3>Build the invitation</h3>
+                <p>Pick the occasion. The wording already fits it — you edit rather than face a blank page. Add your photo.</p>
+            </div>
+            <div class="step">
+                <div class="n">2</div>
+                <h3>Send one link</h3>
+                <p>WhatsApp, email, anywhere. Or personal invitations addressed to one guest by name.</p>
+            </div>
+            <div class="step">
+                <div class="n">3</div>
+                <h3>Watch it come back</h3>
+                <p>Replies, photos and wishes gather in the app while the day gets closer.</p>
+            </div>
+        </div>
+    </section>
+
     <section class="features">
         <div class="container">
-            <h2>Why Ovation?</h2>
+            <div class="eyebrow">For the host</div>
+            <h2>Everything in one place</h2>
             <div class="feature-grid">
                 <div class="feature">
-                    <div class="feature-icon">💌</div>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#846823" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 7.5 12 13l9.5-5.5"/></svg>
                     <h3>Designed to be sent</h3>
-                    <p>Elegant wording, palette and emblem for the occasion. Your photo on the cover.</p>
+                    <p>Wording, palette and emblem that already fit the occasion. Your photo on the cover.</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">✅</div>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#846823" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.4 2.6 2.6L16 9.6"/></svg>
                     <h3>Replies in one place</h3>
-                    <p>Who's coming, with how many. No chasing.</p>
+                    <p>How many people are coming — adults and children — not how many messages arrived.</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">📍</div>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#846823" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
                     <h3>Where and when</h3>
-                    <p>Ceremony, reception, party — each with a tap that opens the exact spot in maps.</p>
+                    <p>Ceremony, reception, after-party — each with a tap that opens the exact spot in maps.</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">📷</div>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#846823" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6.5" width="19" height="13" rx="2"/><circle cx="12" cy="13" r="3.4"/><path d="M8.5 6.5 10 4h4l1.5 2.5"/></svg>
                     <h3>Shared photos</h3>
-                    <p>Guests add theirs. The day comes back to one place.</p>
+                    <p>Guests add theirs from their own phones. The day comes back to one album.</p>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">✍️</div>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#846823" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="11" rx="1.6"/><path d="M3 12.5h18M12 9v11"/><path d="M12 9S10.6 5 8.6 5a2 2 0 0 0 0 4M12 9s1.4-4 3.4-4a2 2 0 0 1 0 4"/></svg>
+                    <h3>Gift registry</h3>
+                    <p>Your IBAN, written once, where guests will actually look for it.</p>
+                </div>
+                <div class="feature">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#846823" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-3-6 3V5a1 1 0 0 1 1-1Z"/><path d="M9.5 9h5M9.5 12.5h5"/></svg>
                     <h3>Guest book</h3>
-                    <p>Wishes from everyone — including those who couldn't make it.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🔗</div>
-                    <h3>One link, no accounts</h3>
-                    <p>Guests install nothing and sign up for nothing.</p>
+                    <p>Wishes from everyone — including the people who could not make it.</p>
                 </div>
             </div>
         </div>
@@ -182,19 +350,45 @@
         <div class="container">
             <h2>For every occasion</h2>
             <div class="occasion-list">
-                <span class="occasion">💍 Wedding</span>
-                <span class="occasion">🕯️ Baptism</span>
-                <span class="occasion">🎂 Birthday</span>
-                <span class="occasion">🎓 Promotion</span>
-                <span class="occasion">🎉 Reunion</span>
+                <span class="occasion">Wedding</span>
+                <span class="occasion">Baptism</span>
+                <span class="occasion">Wedding &amp; baptism, same day</span>
+                <span class="occasion">Birthday</span>
+                <span class="occasion">Promotion</span>
+                <span class="occasion">Reunion</span>
             </div>
+            <p class="foot">On a phone or a tablet — the invitation lays itself out for the screen it is read on.</p>
         </div>
     </section>
 
     <section class="languages">
         <div class="container">
             <h2>Available in 9 languages</h2>
-            <p class="language-list">English • Ελληνικά • Deutsch • Français • Italiano • Español • Türkçe • Română • Polski</p>
+            <p>English • Ελληνικά • Deutsch • Français • Italiano • Español • Türkçe • Română • Polski</p>
+        </div>
+    </section>
+
+    <section class="get-app">
+        <div class="container">
+            <h2>Making one yourself?</h2>
+            <p>Guests never need the app. Hosts do — it is where the invitation is built and where the replies land.</p>
+            <div class="stores">
+                <span class="store is-soon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M16.2 12.7c0-2 1.6-3 1.7-3.1-1-1.4-2.4-1.6-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 8 .7 1 1.5 2 2.5 2 1 0 1.4-.6 2.6-.6s1.5.6 2.6.6c1.1 0 1.8-1 2.4-2 .8-1.1 1.1-2.2 1.1-2.3 0 0-2.2-.8-2.2-3z"/>
+                        <path d="M14.3 6.6c.5-.7.9-1.6.8-2.6-.8 0-1.8.5-2.4 1.2-.5.6-.9 1.5-.8 2.5.9.1 1.8-.4 2.4-1.1z"/>
+                    </svg>
+                    <span><span class="small">Soon on</span><span class="big">App Store</span></span>
+                </span>
+                <span class="store is-soon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 2.7v18.6c0 .5.5.8.9.6l10.3-6-2.6-2.6L4 2.7z" fill="currentColor" opacity=".82"/>
+                        <path d="M4 2.7l8.6 10.6 2.6-2.6L4.9 2.1c-.4-.2-.9.1-.9.6z" fill="currentColor" opacity=".55"/>
+                        <path d="M18.9 10.6l-3.7-2.2-2.6 2.7 2.6 2.6 3.7-2.1c.5-.3.5-.7 0-1z" fill="#d4af5e"/>
+                    </svg>
+                    <span><span class="small">Soon on</span><span class="big">Google Play</span></span>
+                </span>
+            </div>
         </div>
     </section>
 
@@ -205,7 +399,7 @@
                 <a href="/terms.html">Terms of Use</a>
                 <a href="mailto:support@ovationapp.ch">Contact</a>
             </div>
-            <p>&copy; 2026 Ovation. Made in Switzerland.</p>
+            <p>&copy; 2026 Ovation · Made in Switzerland</p>
         </div>
     </footer>
 
