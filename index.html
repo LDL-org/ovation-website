@@ -210,14 +210,28 @@
         footer a:hover { text-decoration: underline; }
         footer p { font-family: var(--sans); font-size: 13px; }
 
-        @media (max-width: 860px) {
+        /* A tablet is not a big phone. It keeps the three steps in a row and pairs the
+           features up; only the third column and a little type go. */
+        @media (max-width: 900px) {
+            header { padding: 60px 0 54px; }
+            header h1 { font-size: 38px; margin-top: 22px; }
+            .logo { font-size: 40px; }
+            .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        /* Phone. Matches the width at which the hero swaps to the portrait crop. */
+        @media (max-width: 620px) {
             header { padding: 52px 0 48px; }
             header h1 { font-size: 32px; margin-top: 20px; }
             .logo { font-size: 36px; }
             .lede { font-size: 15px; }
             .step-grid, .feature-grid { grid-template-columns: 1fr; gap: 26px; }
             .features h2, .occasions h2 { font-size: 27px; }
-            /* Side by side at phone width breaks both labels onto two lines. */
+        }
+
+        /* Two buttons fit side by side down to about 400px; below this they would be touching,
+           and full-width slabs on a tablet look like a mistake, so only the phone stacks them. */
+        @media (max-width: 520px) {
             .stores { flex-direction: column; align-items: stretch; }
             .store { justify-content: center; }
         }
