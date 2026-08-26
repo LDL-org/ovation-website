@@ -35,8 +35,14 @@ h1,h2,.script{font-family:var(--serif)}
    that keeps the middle of the photograph and throws away the composition. The app already
    answers this — it gives a wide layout a 420dp cover instead of 300 — so the viewer does
    the same, and a guest on a laptop sees the picture the host chose. */
-@media (min-width: 600px){
+@media (min-width: 600px) and (min-height: 600px){
   .cover{height:34vw;max-height:420px;min-height:300px}
+}
+/* A phone held sideways is wide and about 390px tall. Sized off the width — by either rule
+   above — the cover would take three quarters of the screen and the invitation would start
+   below the fold, so on a short viewport it is measured against the height instead. */
+@media (max-height: 600px){
+  .cover{max-height:46vh;min-height:120px}
 }
 .cover img{width:100%;height:100%;object-fit:cover;display:block}
 .cover .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
