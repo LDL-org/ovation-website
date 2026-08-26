@@ -31,6 +31,13 @@ h1,h2,.script{font-family:var(--serif)}
 /* hero */
 .cover{position:relative;height:44vw;max-height:260px;min-height:170px;overflow:hidden;
        background:var(--primary-container)}
+/* Wide screens got the phone's band stretched across them: 1280 by 260 is a 5:1 letterbox
+   that keeps the middle of the photograph and throws away the composition. The app already
+   answers this — it gives a wide layout a 420dp cover instead of 300 — so the viewer does
+   the same, and a guest on a laptop sees the picture the host chose. */
+@media (min-width: 600px){
+  .cover{height:34vw;max-height:420px;min-height:300px}
+}
 .cover img{width:100%;height:100%;object-fit:cover;display:block}
 .cover .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
        background:linear-gradient(135deg,var(--primary-container),var(--background))}
@@ -144,6 +151,11 @@ textarea{min-height:82px;resize:vertical}
   padding:8px 14px;border-radius:18px;text-decoration:none}
 .bar .bx{flex:none;background:none;border:0;color:rgba(240,234,234,.55);font-size:20px;
   line-height:1;padding:4px 2px 4px 6px;cursor:pointer}
+/* The bar spans the window, but its contents should not: on a wide screen the title ended up
+   against one edge and the button against the other, with a metre of nothing between. */
+@media (min-width: 760px){
+  .bar{padding-left:calc((100% - 720px) / 2);padding-right:calc((100% - 720px) / 2)}
+}
 
 /* get-the-app */
 .promo{background:var(--ink);color:var(--paper);border-radius:var(--radius);padding:22px;
