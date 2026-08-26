@@ -38,6 +38,15 @@ h1,h2,.script{font-family:var(--serif)}
 @media (min-width: 600px) and (min-height: 600px){
   .cover{height:34vw;max-height:420px;min-height:300px}
 }
+/* Past this width the invitation stops spanning and becomes a page. The 420px cap is absolute
+   while the window is not, so a 2560 monitor turned a 3:1 photograph back into a 6:1 billboard
+   with the top of it cut off — the very thing the rule above exists to prevent. Capping the
+   cover's width instead holds it near 3:1 at any monitor. The threshold is 1400 rather than
+   1200 so the margin that appears is plainly a margin: at 1280 it would have been a 40px
+   sliver down each side, which reads as a bug. */
+@media (min-width: 1400px) and (min-height: 600px){
+  .cover{max-width:1200px;margin-left:auto;margin-right:auto;height:408px}
+}
 /* A phone held sideways is wide and about 390px tall. Sized off the width — by either rule
    above — the cover would take three quarters of the screen and the invitation would start
    below the fold, so on a short viewport it is measured against the height instead. */
