@@ -541,6 +541,20 @@ function render() {
   const sponsors = people.filter(p =>
     ['BEST_MAN','MAID_OF_HONOR','GODPARENT'].indexOf(p.roleKind) >= 0);
 
+  /* People sharing a groupId stand on one line — a couple, a pair of parents. The app has
+     done this since the beginning; here every name got its own line, so an invitation that
+     read "Maria & Ioannis" and "George & Elena" in the app came out as four loose names in
+     the browser. Same input, same shape now. */
+  const pairs = (list) => {
+    const groups = new Map();
+    list.forEach(p => {
+      const key = p.groupId || p.id;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(p.name);
+    });
+    return [...groups.values()].map(names => names.join(' & '));
+  };
+
   let html = '';
 
   /* hero */
@@ -576,13 +590,13 @@ function render() {
       ${(parents.length || c.families_text) && part('FAMILIES') ? `<div class="grp"><div class="cap">${esc(
           c.families_label || t('caption_families'))}</div>
         <div class="who">${(c.families_text ? c.families_text.split('\n')
-          : parents.map(p => p.name)).map(esc).join('<br>')}</div></div>` : ''}
+          : pairs(parents)).map(esc).join('<br>')}</div></div>` : ''}
       ${(sponsors.length || c.supporters_text) && part('SUPPORTERS') ? `<div class="grp"><div class="cap">${esc(
           c.supporters_label
           || (ev.type === 'BAPTISM' ? t('caption_godparents')
               : ev.type === 'WEDDING_BAPTISM' ? t('caption_both_sponsors') : t('caption_koumbaroi')))}</div>
         <div class="who">${(c.supporters_text ? c.supporters_text.split('\n')
-          : sponsors.map(p => p.name)).map(esc).join('<br>')}</div></div>` : ''}
+          : pairs(sponsors)).map(esc).join('<br>')}</div></div>` : ''}
     </div>`;
   }
 
