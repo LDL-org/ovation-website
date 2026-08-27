@@ -510,10 +510,8 @@ const BAR_KEY = 'ovation.bar.dismissed';
    any page reached through a Universal Link once the app is installed, and that offer is the
    better one — it opens the app the guest already has instead of sending them to a shop for
    it. Ours underneath made two app bars stacked on a wedding invitation. */
-const IOS = /iP(hone|od|ad)/.test(navigator.platform) ||
-  (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
 const barHtml = () => {
-  if (IOS) return '';
+  if (isIOS) return '';
   try { if (localStorage.getItem(BAR_KEY)) return ''; } catch (e) {}
   return `<div class="bar" id="bar">
       <span class="bmark">${MARK.replace('class="mark"', 'style="width:30px;height:30px;margin:0"')}</span>
