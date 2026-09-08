@@ -501,13 +501,19 @@ const STORE_PLAY = 'https://play.google.com/store/apps/details?id=org.applicious
 const isAndroid = /Android/.test(navigator.userAgent);
 const isIOS = !isAndroid && (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
-const storeLink = isAndroid ? STORE_PLAY : STORE_IOS;
 
-// Neither listing is public yet, so both of the links above answer 404 to everyone but us.
-// Until they do not, the buttons say so instead of sending a guest to a dead page, and the
-// bar's button goes to the home page, which explains the app and is not a dead end.
-// FLIP THIS ONE CONSTANT on the day both stores are live; nothing else needs touching.
-const STORES_LIVE = false;
+// One flag each, because the two stores did not arrive together: Play went live on 6 Sep 2026
+// and the App Store submission is still queued. A single flag would have meant either hiding
+// a listing that exists or sending guests to an App Store page that answers 404.
+//
+// FLIP IOS_LIVE on the day the App Store listing is public; nothing else needs touching.
+const PLAY_LIVE = true;
+const IOS_LIVE = false;
+
+// Where a single "get the app" button sends this particular reader. A guest whose own store
+// has no listing yet goes to the home page, which explains the app and is not a dead end;
+// sending an iPhone to Google Play would be worse than saying nothing.
+const storeLink = isAndroid ? (PLAY_LIVE ? STORE_PLAY : '/') : (IOS_LIVE ? STORE_IOS : '/');
 
 const APPLE_SVG = `<svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
   <path d="M16.2 12.7c0-2 1.6-3 1.7-3.1-1-1.4-2.4-1.6-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 8 .7 1 1.5 2 2.5 2 1 0 1.4-.6 2.6-.6s1.5.6 2.6.6c1.1 0 1.8-1 2.4-2 .8-1.1 1.1-2.2 1.1-2.3 0 0-2.2-.8-2.2-3z"/>
@@ -521,11 +527,12 @@ const PLAY_SVG = `<svg width="21" height="21" viewBox="0 0 24 24" aria-hidden="t
 
 const storeBtn = (kind) => {
   const play = kind === 'play';
+  const live = play ? PLAY_LIVE : IOS_LIVE;
   const glyph = play ? PLAY_SVG : APPLE_SVG;
   const name = play ? 'Google Play' : 'App Store';
-  const label = `${glyph}<span>${STORES_LIVE ? '' :
+  const label = `${glyph}<span>${live ? '' :
     `<span class="small">${esc(t('store_soon'))}</span>`}<span class="big">${name}</span></span>`;
-  return STORES_LIVE
+  return live
     ? `<a class="store is-live" href="${play ? STORE_PLAY : STORE_IOS}">${label}</a>`
     : `<span class="store is-soon">${label}</span>`;
 };
@@ -561,7 +568,7 @@ const barHtml = () => {
         <span class="bt">${esc(t('banner_title'))}</span><br>
         <span class="bs">${esc(t('banner_sub'))}</span>
       </span>
-      <a class="bget" href="${STORES_LIVE ? storeLink : '/'}">${esc(t('promo_cta'))}</a>
+      <a class="bget" href="${storeLink}">${esc(t('promo_cta'))}</a>
       <button class="bx" onclick="dismissBar()" aria-label="close">&times;</button>
     </div>`;
 };
