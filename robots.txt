@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ovationapp.ch/sitemap.xml
