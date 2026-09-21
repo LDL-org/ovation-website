@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ovation — Beautiful invitations, ready in minutes</title>
-    <meta name="description" content="Ovation — beautiful event invitations you send as one link. Your guests open it in their browser and reply from there. Weddings, baptisms, birthdays, reunions.">
+    <title>Ovation — Digital wedding and baptism invitations with RSVP</title>
+    <meta name="description" content="Send a digital invitation as one link. Guests open it in any browser, no app and no account, and reply there. RSVP, schedule, venue map, shared photos and a guest book. Weddings, baptisms, birthdays, reunions.">
 
     <!-- Proves to Google that this domain is ours, which is what the OAuth consent screen's
          branding verification asks for before it will show the Ovation logo to anyone signing
@@ -17,6 +17,31 @@
     <meta property="og:description" content="Your guest taps a link. No app to install, no account to make — the invitation opens in their browser and they reply from there.">
     <meta property="og:image" content="https://ovationapp.ch/assets/invitation.jpg">
     <meta name="twitter:card" content="summary_large_image">
+
+    <!-- What search engines read about the app itself. The price is the real one, so a result
+         that shows it is not a surprise to anybody who taps through. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Ovation",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "iOS, Android",
+      "description": "Digital invitations for weddings, baptisms, birthdays and reunions. One link, opened in any browser, with RSVP, schedule, venue, shared photos and a guest book.",
+      "url": "https://ovationapp.ch/",
+      "inLanguage": ["en", "el", "de", "fr", "it", "es", "pl", "ro", "tr"],
+      "offers": {
+        "@type": "Offer",
+        "price": "15.00",
+        "priceCurrency": "CHF",
+        "description": "One payment per event. No subscription."
+      },
+      "installUrl": [
+        "https://apps.apple.com/app/id6801901969",
+        "https://play.google.com/store/apps/details?id=org.applicious.ovation"
+      ]
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
