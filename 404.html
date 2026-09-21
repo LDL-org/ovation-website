@@ -492,8 +492,14 @@ const SEGMENTS = {
 
 /* ── page ─────────────────────────────────────────────────────────────────── */
 
-const STORE_IOS = 'https://apps.apple.com/app/id6801901969';
-const STORE_PLAY = 'https://play.google.com/store/apps/details?id=org.applicious.ovation';
+// Tagged so the stores can say how many installs came from an invitation somebody was sent,
+// as opposed to everything else. Play reads `referrer` and shows it under acquisition; Apple
+// reads `ct`, and only reports it alongside a provider token (`pt`), which has to come from
+// App Store Connect's own campaign links — until that is added, the iOS side is untracked and
+// the link still works.
+const STORE_IOS = 'https://apps.apple.com/app/id6801901969?ct=invitation&mt=8';
+const STORE_PLAY = 'https://play.google.com/store/apps/details?id=org.applicious.ovation'
+    + '&referrer=' + encodeURIComponent('utm_source=invitation&utm_medium=guest_page');
 
 // Detection picks the order and the bar's single button. Both stores are always offered:
 // a guest reading on a laptop installs on a phone later, and a browser that looks like two
