@@ -704,8 +704,13 @@ function render() {
     const followUpKey = ev.type === 'BAPTISM' ? 'copy_baptism_followup'
       : ev.type === 'WEDDING_BAPTISM' ? 'copy_wedding_baptism_followup'
       : ev.type === 'WEDDING' ? 'copy_wedding_followup' : null;
-    const followUp = (c.closing_text || (
-      c.invitation_template_id && followUpKey && followUpVenue && start && start >= new Date()
+    /* A creator's own closing line is a template like any other copy — the app has always
+       rendered it that way, so {venue} becomes the venue and its link. It also has to go
+       through renderCopy for the reason every other string does: it is typed by a person and
+       read by their guests, and this div is written as HTML. */
+    const followUp = (c.closing_text
+      ? renderCopy(c.closing_text, start ? longDate(start) : '', followUpVenue)
+      : (c.invitation_template_id && followUpKey && followUpVenue && start && start >= new Date()
         ? renderCopy(t(followUpKey), '', followUpVenue) : ''));
 
     html += `<div class="card inv">${h2('invitation', t('section_invitation'))}
