@@ -1,7 +1,8 @@
 # Demo assets
 
-A generated clip and its poster frame, used to try the invitation video on a real phone
-before the app could produce one. Nothing links here except a test event.
+A generated clip with its poster frame, and two story photographs. They are what the demo
+invitation shows: the film, and the two moments under "Our story". Served from here rather
+than from Supabase, so showing the demo costs no egress.
 
 Both are AI-generated and show no real person. They are here for testing only — not for
 store screenshots, and not to stand in for a real couple anywhere the difference matters.
