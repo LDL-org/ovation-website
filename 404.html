@@ -428,11 +428,13 @@ function renderCopy(template, dateText, venue) {
     if (m[1] === 'date') out += esc(dateText);
     else if (m[1] === 'venueArticle') out += esc((venue && venue.articleAccusative) || 'ο');
     else if (venue) {
-      const maps = venue.mapsUrl || venue.maps_url ||
-        (venue.latitude != null && venue.longitude != null
-          ? 'https://www.google.com/maps/search/?api=1&query=' + venue.latitude + ',' + venue.longitude
-          : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(venue.name || ''));
-      out += `<a class="venue" href="${esc(maps)}" target="_blank" rel="noopener">${esc(venue.name)}</a>`;
+      // Through the same helper as every other venue on the page. This branch kept its own
+      // copy of the field names that were wrong everywhere — so the one venue named in the
+      // invitation itself was still sending guests to a text search.
+      const maps = mapsHref(venue);
+      out += maps
+        ? `<a class="venue" href="${esc(maps)}" target="_blank" rel="noopener">${esc(venue.name)}</a>`
+        : esc(venue.name || '');
     }
     last = re.lastIndex;
   }
