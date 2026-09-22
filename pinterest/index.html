@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ovation</title>
+
+    <!-- Kept out of search results on purpose: this is a signpost, not a page. Indexing it
+         would compete with the real ones and teach Google nothing. -->
+    <meta name="robots" content="noindex, follow">
+
+    <!--
+      Where a bio link, a QR on a card, or a planner's post points.
+
+      The point is the tag. Nothing here counts anything: the visitor is handed to the store
+      with a source attached, and the store's own console does the counting — Play under
+      acquisition, Apple under campaigns. No analytics, no cookies, nothing to consent to.
+
+          Generated for /pinterest/ by docs/web/build-links.py — do not hand-edit.
+
+      A source with no tag still works; it simply arrives as "get".
+    -->
+    <style>
+        :root { --ink: #1C1720; --paper: #F5F0E8; --gold: #C9A227; }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; min-height: 100vh; display: flex; align-items: center;
+            justify-content: center; background: var(--ink); color: var(--paper);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            text-align: center; padding: 24px;
+        }
+        .mark { font-family: "Great Vibes", cursive; font-size: 44px; color: var(--gold); }
+        p { opacity: .75; margin: 10px 0 26px; }
+        a {
+            display: block; max-width: 320px; margin: 10px auto; padding: 14px 20px;
+            border-radius: 10px; text-decoration: none; font-weight: 600;
+            background: var(--paper); color: var(--ink);
+        }
+        a.ghost { background: transparent; color: var(--paper); border: 1px solid rgba(245,240,232,.35); }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <div class="mark">Ovation</div>
+        <p id="line">Taking you to the store…</p>
+        <a id="ios" href="#">Download on the App Store</a>
+        <a id="play" href="#">Get it on Google Play</a>
+        <a class="ghost" href="/">ovationapp.ch</a>
+    </main>
+
+    <script>
+    (function () {
+        // Only letters, digits, dash and underscore reach a store URL. The parameter is
+        // written by whoever shares the link, so it is treated as untrusted text.
+        var raw = new URLSearchParams(location.search).get('s') || 'pinterest';
+        var source = raw.toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 24) || 'get';
+
+        var ios = 'https://apps.apple.com/app/id6801901969?ct=' + encodeURIComponent(source) + '&mt=8';
+        var play = 'https://play.google.com/store/apps/details?id=org.applicious.ovation&referrer='
+            + encodeURIComponent('utm_source=' + source + '&utm_medium=bio');
+
+        document.getElementById('ios').href = ios;
+        document.getElementById('play').href = play;
+
+        var ua = navigator.userAgent || '';
+        var isIOS = /iPhone|iPad|iPod/.test(ua) || (/Mac/.test(ua) && navigator.maxTouchPoints > 1);
+        var isAndroid = /Android/.test(ua);
+
+        // A phone goes straight through; a desktop is shown both, because sending somebody to
+        // a phone store from a laptop is a dead end.
+        if (isIOS) { location.replace(ios); }
+        else if (isAndroid) { location.replace(play); }
+        else { document.getElementById('line').textContent = 'Ovation is on iPhone and Android.'; }
+    })();
+    </script>
+</body>
+</html>
