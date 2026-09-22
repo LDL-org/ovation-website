@@ -105,6 +105,10 @@ a.venue{font-weight:600;text-decoration:underline}
 .mile{display:flex;gap:13px;padding:11px 0;align-items:flex-start}
 .mile+.mile{border-top:1px solid rgba(0,0,0,.06)}
 .mile .dot{width:9px;height:9px;border-radius:50%;background:var(--primary);margin-top:8px;flex:none}
+/* A story moment can carry a photograph. The app has always shown one; this page ignored it,
+   so the guest saw less of somebody's story than its host did. Lazy, because a story can run
+   long and none of it is above the fold. */
+.mile .shot{width:58px;height:58px;border-radius:10px;object-fit:cover;flex:none;margin-top:2px}
 .mile .t{font-weight:600;font-size:15px}
 .mile .sub{color:var(--on-surface-variant);font-size:14px}
 
@@ -793,7 +797,9 @@ function render() {
   const story = c.story_moments || [];
   if (on('STORY') && story.length) {
     html += `<div class="card">${h2('story', t('section_story'))}` +
-      story.map(s => `<div class="mile"><div class="dot"></div><div>
+      story.map(s => `<div class="mile">${s.photoUrl
+          ? `<img class="shot" loading="lazy" alt="" src="${esc(s.photoUrl)}">`
+          : '<div class="dot"></div>'}<div>
         <div class="t">${esc(s.title)}</div>
         ${s.date ? `<div class="sub">${esc(longDate(parseDT(s.date) || new Date(s.date)))}</div>` : ''}
         ${s.description ? `<div class="sub">${esc(s.description)}</div>` : ''}
